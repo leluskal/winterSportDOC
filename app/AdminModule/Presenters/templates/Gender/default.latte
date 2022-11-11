@@ -1,8 +1,8 @@
 {block content}
 
-<h1 class="mt-4">Sports</h1>
+<h1 class="mt-4">Gender</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="Sport:create" class="btn btn-warning">Add</a>
+    <a n:href="Gender:create" class="btn btn-warning">Add</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -12,15 +12,15 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>Sport</th>
+                    <th>Gender</th>
                 </tr>
                 </thead>
                 <tbody>
-                {foreach $sports as $sport}
+                {foreach $genders as $gender}
                     <tr>
                         <td>
-                            {$sport->getName()}
-                            <a n:href="Sport:edit, id => $sport->getId()"><i class="fas fa-edit fa-xs"></i></a>
+                            {$gender->getName()}
+                            <a n:href="Gender:edit, id => $gender->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
                     </tr>
                 {/foreach}
