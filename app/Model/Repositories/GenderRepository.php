@@ -27,4 +27,17 @@ class GenderRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllForSelectBox(): array
+    {
+        $genders = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($genders as $gender) {
+            $returnArray[$gender->getId()] = $gender->getName();
+        }
+
+        return $returnArray;
+    }
 }

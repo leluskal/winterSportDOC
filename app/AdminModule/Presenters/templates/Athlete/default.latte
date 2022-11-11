@@ -1,0 +1,38 @@
+{block content}
+
+<h1 class="mt-4">Athletes</h1>
+<ol class="breadcrumb mb-4">
+    <a n:href="Athlete:create" class="btn btn-warning">Add</a>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Country</th>
+                    <th>Sport</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $athletes as $athlete}
+                    <tr>
+                        <td>
+                            {$athlete->getFirstname()}
+                            {$athlete->getLastname()}
+                            <a n:href="Athlete:edit, id => $athlete->getId()"><i class="fas fa-edit fa-xs"></i></a>
+                        </td>
+                        <td>{$athlete->getGender()->getName()}</td>
+                        <td>{$athlete->getCountry()}</td>
+                        <td>{$athlete->getSport()->getName()}</td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

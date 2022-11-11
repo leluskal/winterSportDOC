@@ -27,4 +27,17 @@ class SportRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllForSelectBox(): array
+    {
+        $sports = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($sports as $sport) {
+            $returnArray[$sport->getId()] = $sport->getName();
+        }
+
+        return $returnArray;
+    }
 }
