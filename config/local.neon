@@ -1,4 +1,9 @@
 parameters:
+    doctrine:
+        host: localhost
+        user: lenka
+        password: password
+        dbname: winterSportDOC
 
 
 database:

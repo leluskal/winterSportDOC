@@ -4,7 +4,7 @@ parameters:
 application:
 	errorPresenter: Error
 	mapping:
-		*: [App, Modules\*, Presenters\*Presenter]
+		*: App\*Module\Presenters\*Presenter
 
 
 session:
@@ -15,3 +15,10 @@ di:
 	export:
 		parameters: no
 		tags: no
+
+extensions:
+    console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+    nettrine.migrations: Nettrine\Migrations\DI\MigrationsExtension
+
+includes:
+    - doctrine.neon
