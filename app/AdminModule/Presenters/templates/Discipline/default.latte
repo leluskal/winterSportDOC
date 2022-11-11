@@ -1,0 +1,35 @@
+{block content}
+
+<h1 class="mt-4">Discipline</h1>
+<ol class="breadcrumb mb-4">
+    <a n:href="Discipline:create" class="btn btn-warning">Add</a>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Discipline</th>
+                    <th>Sport</th>
+                    <th>Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $disciplines as $discipline}
+                    <tr>
+                        <td>
+                            {$discipline->getName()}
+                            <a n:href="Discipline:edit, id => $discipline->getId()"><i class="fas fa-edit fa-xs"></i></a>
+                        </td>
+                        <td>{$discipline->getSport()->getName()}</td>
+                        <td>{$discipline->getGender()->getName()}</td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
