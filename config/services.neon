@@ -1,2 +1,4 @@
 services:
 	- App\Router\RouterFactory::createRouter
+	- App\Model\Repositories\SportRepository
+	- App\AdminModule\Components\Forms\Sport\SportFormFactory
