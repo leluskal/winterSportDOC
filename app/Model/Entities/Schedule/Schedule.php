@@ -22,7 +22,7 @@ class Schedule
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Dicsipline")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline")
      * @ORM\JoinColumn(name="discipline_id", referencedColumnName="id", nullable=false)
      */
     private Discipline $discipline;

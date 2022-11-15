@@ -35,8 +35,8 @@ class RaceResult
     private Athlete $athlete;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Dicsipline")
-     * @ORM\JoinColumn(name="discipline_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\RacePosition\RacePosition")
+     * @ORM\JoinColumn(name="race_position_id", referencedColumnName="id", nullable=false)
      */
     private RacePosition $racePosition;
 

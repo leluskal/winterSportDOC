@@ -13,6 +13,7 @@
                 <thead>
                 <tr>
                     <th>Sport</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,6 +23,7 @@
                             {$sport->getName()}
                             <a n:href="Sport:edit, id => $sport->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
+                        <td><a n:href="Sport:scoring, sportId => $sport->getId()">scoring</a></td>
                     </tr>
                 {/foreach}
                 </tbody>
