@@ -1,0 +1,45 @@
+{block content}
+
+<h1 class="mt-4">{$discipline->getName()}({$discipline->getGender()->getName()}) - schedule</h1>
+<ol class="breadcrumb mb-4">
+    <a n:href="Schedule:create, disciplineId => $discipline->getId()" class="btn btn-warning">Add</a>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Event Date</th>
+                    <th>Event Place</th>
+                    <th>Seen</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $schedules as $schedule}
+                    <tr>
+                        <td>{$schedule->getEventDate()->format('d.m.Y H:i')}</td>
+                        <td>{$schedule->getEventPlace()}</td>
+                        <td>
+                            <div class="part-icon-block">
+                                {if $schedule->isSeen()}
+                                    <i class="far fa-check-square"></i>
+                                {else}
+                                    <i class="far fa-square"></i>
+                                {/if}
+                            </div>
+                        </td>
+                        <td>
+                            <a n:href="Schedule:edit, id => $schedule->getId()" class="btn btn-light">Edit</a>
+                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>
+                        </td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

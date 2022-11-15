@@ -10,3 +10,5 @@ services:
 	- App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory
 	- App\Model\Repositories\RacePositionRepository
 	- App\AdminModule\Components\Forms\RacePosition\RacePositionFormFactory
+	- App\Model\Repositories\ScheduleRepository
+	- App\AdminModule\Components\Forms\Schedule\ScheduleFormFactory

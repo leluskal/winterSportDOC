@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
+use App\Model\Repositories\ScheduleRepository;
 use Nette\Application\UI\Presenter;
 
 class DisciplinePresenter extends Presenter
@@ -14,10 +15,17 @@ class DisciplinePresenter extends Presenter
 
     private DisciplineFormFactory $disciplineFormFactory;
 
-    public function __construct(DisciplineRepository $disciplineRepository, DisciplineFormFactory $disciplineFormFactory)
+    private ScheduleRepository $scheduleRepository;
+
+    public function __construct(
+        DisciplineRepository $disciplineRepository,
+        DisciplineFormFactory $disciplineFormFactory,
+        ScheduleRepository $scheduleRepository
+    )
     {
         $this->disciplineRepository = $disciplineRepository;
         $this->disciplineFormFactory = $disciplineFormFactory;
+        $this->scheduleRepository = $scheduleRepository;
     }
 
     public function createComponentDisciplineForm(): DisciplineForm
@@ -55,5 +63,20 @@ class DisciplinePresenter extends Presenter
     public function renderCreate()
     {
 
+    }
+
+    public function renderSchedule(int $disciplineId)
+    {
+        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
+        $this->template->schedules = $this->scheduleRepository->findAllByDisciplineId($disciplineId);
+    }
+
+    public function handleDeleteSchedule(int $scheduleId)
+    {
+        $schedule = $this->scheduleRepository->getById($scheduleId);
+
+        $this->scheduleRepository->delete($schedule);
+        $this->flashMessage('The schedule record is deleted', 'info');
+        $this->redirect('Discipline:schedule', $schedule->getDiscipline()->getId());
     }
 }
