@@ -16,6 +16,9 @@ class AthleteRepository extends BaseRepository
         return Athlete::class;
     }
 
+    /**
+     * @return Athlete[]
+     */
     public function findAll(): array
     {
         return $this->em->createQueryBuilder()
@@ -23,5 +26,18 @@ class AthleteRepository extends BaseRepository
             ->from($this->entityName, 'e')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllForSelectBox(): array
+    {
+        $athletes = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($athletes as $athlete) {
+            $returnArray[$athlete->getId()] = $athlete->getFirstname() . '  ' . $athlete->getLastname() . ' - ' . $athlete->getCountry();
+        }
+
+        return $returnArray;
     }
 }

@@ -38,4 +38,17 @@ class RacePositionRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllForSelectBox(): array
+    {
+        $racePositions = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($racePositions as $racePosition) {
+            $returnArray[$racePosition->getId()] = $racePosition->getSport()->getName() . '  ' . $racePosition->getPosition();
+        }
+
+        return $returnArray;
+    }
 }
