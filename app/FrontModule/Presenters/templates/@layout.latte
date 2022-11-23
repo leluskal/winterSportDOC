@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="{$basePath}/css/style-new.css" rel="stylesheet">
+    <link href="{$basePath}/css/style-mobile-new.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/7cd3503c9e.js" crossorigin="anonymous"></script>
+
+
+    <title>{ifset title}{include title|stripHtml} | {/ifset}Winter Sports</title>
+</head>
+<body>
+
+<header id="homepage">
+    <div class="front-homepage-container">
+        <ul>
+            <li>
+                <a n:href="Homepage:default" {if isLinkCurrent('Homepage:default')}class="active"{/if}>Home</a>
+            </li>
+            <li>
+                <a n:href="Program:default" {if isLinkCurrent('Program:default')}class="active"{/if}>Program</a>
+            </li>
+            <li>
+                <a n:href="Test:default" {if isLinkCurrent('Test:default')}class="active"{/if}>Test</a>
+            </li>
+{*            <li>*}
+{*                <a n:href="Result:default" {if isLinkCurrent('Result:default')}class="active"{/if}>Results</a>*}
+{*            </li>*}
+            <li>
+                <a n:href=":Admin:Homepage:default">Admin</a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+{foreach $flashes as $flash}
+    <p class="flash text-center text-white bg-{$flash->type}">{$flash->message}</p>
+{/foreach}
+{include content}
+
+</body>
+</html>
+

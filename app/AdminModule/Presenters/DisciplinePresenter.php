@@ -43,11 +43,6 @@ class DisciplinePresenter extends Presenter
         return $form;
     }
 
-    public function renderDefault()
-    {
-        $this->template->disciplines = $this->disciplineRepository->findAll();
-    }
-
     public function renderEdit(int $id)
     {
         $discipline = $this->disciplineRepository->getById($id);
@@ -60,23 +55,8 @@ class DisciplinePresenter extends Presenter
         $this['disciplineForm']['form']['name']->setDefaultValue($discipline->getName());
     }
 
-    public function renderCreate()
+    public function renderCreate(int $sportId)
     {
-
-    }
-
-    public function renderSchedule(int $disciplineId)
-    {
-        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-        $this->template->schedules = $this->scheduleRepository->findAllByDisciplineId($disciplineId);
-    }
-
-    public function handleDeleteSchedule(int $scheduleId)
-    {
-        $schedule = $this->scheduleRepository->getById($scheduleId);
-
-        $this->scheduleRepository->delete($schedule);
-        $this->flashMessage('The schedule record is deleted', 'info');
-        $this->redirect('Discipline:schedule', $schedule->getDiscipline()->getId());
+        $this['disciplineForm']['form']['sport_id']->setDefaultValue($sportId);
     }
 }

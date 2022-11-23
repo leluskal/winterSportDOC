@@ -58,4 +58,18 @@ class ScheduleRepository extends BaseRepository
 
         return $returnArray;
     }
+
+    public function findAllGroupedByDate(): array
+    {
+        $schedules = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($schedules as $schedule) {
+            $date = $schedule->getEventDate()->format('d.m.Y');
+            $returnArray[$date][] = $schedule;
+        }
+
+        return $returnArray;
+    }
 }

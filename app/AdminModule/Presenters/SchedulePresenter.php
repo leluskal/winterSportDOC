@@ -25,7 +25,7 @@ class SchedulePresenter extends Presenter
         $form = $this->scheduleFormFactory->create();
 
         $form->onFinish[] =function (ScheduleForm $scheduleForm) use ($form) {
-            $this->redirect('Discipline:schedule', ['disciplineId' => $form->getDisciplineId()]);
+            $this->redirect('Sport:schedule', ['sportId' => $form->getSportId()]);
         };
 
         return $form;
@@ -34,18 +34,20 @@ class SchedulePresenter extends Presenter
     public function renderEdit(int $id)
     {
         $schedule = $this->scheduleRepository->getById($id);
+        $sport = $schedule->getSport();
         $discipline = $schedule->getDiscipline();
 
         $this['scheduleForm']['form']['id']->setDefaultValue($schedule->getId());
+        $this['scheduleForm']['form']['sport_id']->setDefaultValue($sport->getId());
         $this['scheduleForm']['form']['discipline_id']->setDefaultValue($discipline->getId());
         $this['scheduleForm']['form']['event_date']->setDefaultValue($schedule->getEventDate()->format('Y-m-d\TH:i'));
         $this['scheduleForm']['form']['event_place']->setDefaultValue($schedule->getEventPlace());
         $this['scheduleForm']['form']['seen']->setDefaultValue($schedule->isSeen());
     }
 
-    public function renderCreate(int $disciplineId)
+    public function renderCreate(int $sportId)
     {
-        $this['scheduleForm']['form']['discipline_id']->setDefaultValue($disciplineId);
+        $this['scheduleForm']['form']['sport_id']->setDefaultValue($sportId);
 
     }
 }

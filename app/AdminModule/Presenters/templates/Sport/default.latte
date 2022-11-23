@@ -1,8 +1,8 @@
 {block content}
 
-<h1 class="mt-4">Sports</h1>
+<h1 class="mt-4">Winter Sports</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="Sport:create" class="btn btn-warning">Add</a>
+    <a n:href="Sport:create" class="btn btn-warning">Add Sport</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -14,6 +14,7 @@
                 <tr>
                     <th>Sport</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,9 +22,14 @@
                     <tr>
                         <td>
                             {$sport->getName()}
-                            <a n:href="Sport:edit, id => $sport->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
-                        <td><a n:href="Sport:scoring, sportId => $sport->getId()">scoring</a></td>
+                        <td>
+                            <a n:href="Sport:edit, id => $sport->getId()" class="btn btn-light">Edit</a>
+                        </td>
+                        <td>
+                            <a n:href="Sport:discipline, sportId => $sport->getId()" class="btn btn-warning">disciplines</a>
+                            <a n:href="Sport:scoring, sportId => $sport->getId()" class="btn btn-info">scoring</a>
+                        </td>
                     </tr>
                 {/foreach}
                 </tbody>

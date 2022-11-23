@@ -13,6 +13,7 @@
                 <thead>
                 <tr>
                     <th>Gender</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -20,7 +21,9 @@
                     <tr>
                         <td>
                             {$gender->getName()}
-                            <a n:href="Gender:edit, id => $gender->getId()"><i class="fas fa-edit fa-xs"></i></a>
+                        </td>
+                        <td>
+                            <a n:href="Gender:edit, id => $gender->getId()" class="btn btn-light">Edit</a>
                         </td>
                     </tr>
                 {/foreach}

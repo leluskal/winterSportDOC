@@ -42,4 +42,15 @@ class DisciplineRepository extends BaseRepository
 
         return $returnArray;
     }
+
+    public function findAllBySportId(int $sportId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.sport = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->getQuery()
+            ->getResult();
+    }
 }

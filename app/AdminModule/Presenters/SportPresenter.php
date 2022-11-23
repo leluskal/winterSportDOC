@@ -5,6 +5,7 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components\Forms\Sport\SportForm;
 use App\AdminModule\Components\Forms\Sport\SportFormFactory;
+use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\RacePositionRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Presenter;
@@ -17,15 +18,19 @@ class SportPresenter extends Presenter
 
     private RacePositionRepository $racePositionRepository;
 
+    private DisciplineRepository $disciplineRepository;
+
     public function __construct(
         SportRepository $sportRepository,
         SportFormFactory $sportFormFactory,
-        RacePositionRepository $racePositionRepository
+        RacePositionRepository $racePositionRepository,
+        DisciplineRepository $disciplineRepository
     )
     {
         $this->sportRepository = $sportRepository;
         $this->sportFormFactory = $sportFormFactory;
         $this->racePositionRepository = $racePositionRepository;
+        $this->disciplineRepository = $disciplineRepository;
     }
 
     public function createComponentSportForm(): SportForm
@@ -46,6 +51,7 @@ class SportPresenter extends Presenter
     public function renderDefault()
     {
         $this->template->sports = $this->sportRepository->findAll();
+
     }
 
     public function renderEdit(int $id)
@@ -74,5 +80,11 @@ class SportPresenter extends Presenter
         $this->racePositionRepository->delete($racePosition);
         $this->flashMessage('The record is deleted', 'info');
         $this->redirect('Sport:scoring', $racePosition->getSport()->getId());
+    }
+
+    public function renderDiscipline(int $sportId)
+    {
+        $this->template->sport = $this->sportRepository->getById($sportId);
+        $this->template->disciplines = $this->disciplineRepository->findAllBySportId($sportId);
     }
 }

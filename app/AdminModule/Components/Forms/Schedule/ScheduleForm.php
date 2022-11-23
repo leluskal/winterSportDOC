@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\AdminModule\Components\Forms\Schedule;
 
 use App\Model\Entities\Schedule\Schedule;
+use App\Model\Entities\Sport\Sport;
 use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\ScheduleRepository;
+use App\Model\Repositories\SportRepository;
 use DateTime;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -18,14 +20,21 @@ class ScheduleForm extends Control
 
     public array $onFinish;
 
-    private int $disciplineId;
+    private int $sportId;
+
+    private SportRepository $sportRepository;
 
     private DisciplineRepository $disciplineRepository;
 
     private ScheduleRepository $scheduleRepository;
 
-    public function __construct(DisciplineRepository $disciplineRepository, ScheduleRepository $scheduleRepository)
+    public function __construct(
+        SportRepository $sportRepository,
+        DisciplineRepository $disciplineRepository,
+        ScheduleRepository $scheduleRepository
+    )
     {
+        $this->sportRepository = $sportRepository;
         $this->disciplineRepository = $disciplineRepository;
         $this->scheduleRepository = $scheduleRepository;
     }
@@ -36,7 +45,11 @@ class ScheduleForm extends Control
 
         $form->addHidden('id');
 
+        $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
+             ->setRequired('The sport is required');
+
         $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBox())
+             ->setPrompt('--Choose discipline--')
              ->setRequired('The discipline is required');
 
         $form->addText('event_date', 'Event Date')
@@ -57,10 +70,12 @@ class ScheduleForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
+        $sport = $this->sportRepository->getById((int) $values->sport_id);
         $discipline = $this->disciplineRepository->getById((int) $values->discipline_id);
 
         if ($values->id === '') {
             $schedule = new Schedule(
+                $sport,
                 $discipline,
                 DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date),
                 $values->event_place,
@@ -74,6 +89,7 @@ class ScheduleForm extends Control
         if ($values->id !== '') {
             $schedule = $this->scheduleRepository->getById((int) $values->id);
 
+            $schedule->setSport($sport);
             $schedule->setDiscipline($discipline);
             $schedule->setEventDate(DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date));
             $schedule->setEventPlace($values->event_place);
@@ -83,7 +99,7 @@ class ScheduleForm extends Control
             $this->getPresenter()->flashMessage('The schedule record is updated', 'info');
         }
 
-        $this->disciplineId = $values->discipline_id;
+        $this->sportId = $values->sport_id;
 
         $this->onFinish($this);
     }
@@ -95,8 +111,8 @@ class ScheduleForm extends Control
         $template->render();
     }
 
-    public function getDisciplineId(): int
+    public function getSportId(): int
     {
-        return $this->disciplineId;
+        return $this->sportId;
     }
 }

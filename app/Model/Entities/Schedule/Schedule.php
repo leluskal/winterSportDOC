@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entities\Schedule;
 
 use App\Model\Entities\Discipline\Discipline;
+use App\Model\Entities\Sport\Sport;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,6 +21,12 @@ class Schedule
      * @ORM\GeneratedValue
      */
     private int $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport")
+     * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=false)
+     */
+    private Sport $sport;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline")
@@ -45,8 +52,9 @@ class Schedule
      */
     private bool $seen;
 
-    public function __construct(Discipline $discipline, DateTime $eventDate, string $eventPlace, bool $seen)
+    public function __construct(Sport $sport,Discipline $discipline, DateTime $eventDate, string $eventPlace, bool $seen)
     {
+        $this->sport = $sport;
         $this->discipline = $discipline;
         $this->eventDate = $eventDate;
         $this->eventPlace = $eventPlace;
@@ -59,6 +67,22 @@ class Schedule
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Sport
+     */
+    public function getSport(): Sport
+    {
+        return $this->sport;
+    }
+
+    /**
+     * @param Sport $sport
+     */
+    public function setSport(Sport $sport): void
+    {
+        $this->sport = $sport;
     }
 
     /**

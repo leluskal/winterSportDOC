@@ -1,8 +1,8 @@
 {block content}
 
-<h1 class="mt-4">Discipline</h1>
+<h1 class="mt-4">{$sport->getName()} - disciplíny</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="Discipline:create" class="btn btn-warning">Add</a>
+    <a n:href="Discipline:create, sportId => $sport->getId()" class="btn btn-warning">Add Discipline</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -13,8 +13,8 @@
                 <thead>
                 <tr>
                     <th>Discipline</th>
-                    <th>Sport</th>
                     <th>Gender</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,11 +22,11 @@
                     <tr>
                         <td>
                             {$discipline->getName()}
-                            <a n:href="Discipline:edit, id => $discipline->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
-                        <td>{$discipline->getSport()->getName()}</td>
                         <td>{$discipline->getGender()->getName()}</td>
-                        <td><a n:href="Discipline:schedule, disciplineId => $discipline->getId()">Schedule</a></td>
+                        <td>
+                            <a n:href="Discipline:edit, id => $discipline->getId()" class="btn btn-light">Edit</a>
+                        </td>
                     </tr>
                 {/foreach}
                 </tbody>

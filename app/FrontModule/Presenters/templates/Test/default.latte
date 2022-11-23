@@ -1,0 +1,47 @@
+{block content}
+
+<div class="sport-records-class">
+    <h1>Sports</h1>
+    <br>
+    {foreach $sports as $sportRecord}
+        <span>
+            <a n:href="Test:default, sportId => $sportRecord->getId()" class="category-button">{$sportRecord->getName()}</a>
+        </span>
+    {/foreach}
+    <br><br>
+    <h2 id="sport-heading">
+        {if $sport !== null}
+            {$sport->getName()}
+        {/if}
+    </h2>
+
+    <span class="category-button">
+            <a n:href="Test:default, sportId => $sportRecord->getId()">Disciplines</a>
+    </span>
+    <br>
+    {ifset $disciplines}
+    {foreach $disciplines as $discipline}
+        <span>
+           {$discipline->getName()}
+        </span>
+    {/foreach}
+    {/ifset}
+
+
+
+
+{*    <span class="category-button">*}
+{*            Scoring*}
+{*    </span>*}
+{*    <span class="category-button">*}
+{*            Athletes*}
+{*    </span>*}
+
+
+
+
+
+
+
+
+</div>
