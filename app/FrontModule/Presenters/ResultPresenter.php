@@ -11,7 +11,7 @@ use App\Model\Repositories\RacePositionRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Presenter;
 
-class TestPresenter extends Presenter
+class ResultPresenter extends Presenter
 {
     private SportRepository $sportRepository;
 

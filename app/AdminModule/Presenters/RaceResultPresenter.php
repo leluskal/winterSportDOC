@@ -54,5 +54,4 @@ class RaceResultPresenter extends Presenter
 
     }
 
-
 }

@@ -27,4 +27,18 @@ class RaceResultRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllByDisciplineId(int $disciplineId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->leftJoin('e.schedule', 's')
+            ->leftJoin('s.discipline', 'd')
+            ->andWhere('d.id = :discipline_id')
+            ->setParameter('discipline_id', $disciplineId)
+            ->getQuery()
+            ->getResult();
+
+    }
 }

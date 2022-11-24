@@ -6,7 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\ScheduleRepository;
+use App\Model\Repositories\RaceResultRepository;
 use Nette\Application\UI\Presenter;
 
 class DisciplinePresenter extends Presenter
@@ -15,29 +15,29 @@ class DisciplinePresenter extends Presenter
 
     private DisciplineFormFactory $disciplineFormFactory;
 
-    private ScheduleRepository $scheduleRepository;
+    private RaceResultRepository $raceResultRepository;
 
     public function __construct(
         DisciplineRepository $disciplineRepository,
         DisciplineFormFactory $disciplineFormFactory,
-        ScheduleRepository $scheduleRepository
+        RaceResultRepository $raceResultRepository
     )
     {
         $this->disciplineRepository = $disciplineRepository;
         $this->disciplineFormFactory = $disciplineFormFactory;
-        $this->scheduleRepository = $scheduleRepository;
+        $this->raceResultRepository = $raceResultRepository;
     }
 
     public function createComponentDisciplineForm(): DisciplineForm
     {
         $form = $this->disciplineFormFactory->create();
 
-        $form->onFinish[] = function (DisciplineForm $disciplineForm) {
-            $this->redirect('Discipline:default');
+        $form->onFinish[] = function (DisciplineForm $disciplineForm) use ($form) {
+            $this->redirect('Sport:discipline', ['sportId' => $form->getSportId()]);
         };
 
-        $form->onDelete[] = function (DisciplineForm $disciplineForm) {
-            $this->redirect('Discipline:default');
+        $form->onDelete[] = function (DisciplineForm $disciplineForm) use ($form) {
+            $this->redirect('Sport:discipline', ['sportId' => $form->getSportId()]);
         };
 
         return $form;
@@ -58,5 +58,17 @@ class DisciplinePresenter extends Presenter
     public function renderCreate(int $sportId)
     {
         $this['disciplineForm']['form']['sport_id']->setDefaultValue($sportId);
+    }
+
+    public function renderEvent(int $disciplineId)
+    {
+        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
+        $this->template->raceResults = $this->raceResultRepository->findAllByDisciplineId($disciplineId);
+    }
+
+    public function renderResult(int $disciplineId)
+    {
+        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
+        $this->template->raceResults = $this->raceResultRepository->findAllByDisciplineId($disciplineId);
     }
 }

@@ -15,6 +15,7 @@
                     <th>Discipline</th>
                     <th>Gender</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,9 @@
                         <td>{$discipline->getGender()->getName()}</td>
                         <td>
                             <a n:href="Discipline:edit, id => $discipline->getId()" class="btn btn-light">Edit</a>
+                        </td>
+                        <td>
+                            <a n:href="Discipline:event, disciplineId => $discipline->getId()" class="btn btn-info">Results</a>
                         </td>
                     </tr>
                 {/foreach}

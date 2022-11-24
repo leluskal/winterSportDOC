@@ -5,7 +5,7 @@
     <br>
     {foreach $sports as $sportRecord}
         <span>
-            <a n:href="Test:default, sportId => $sportRecord->getId()" class="category-button">{$sportRecord->getName()}</a>
+            <a n:href="Result:default, sportId => $sportRecord->getId()" class="category-button">{$sportRecord->getName()}</a>
         </span>
     {/foreach}
     <br><br>
@@ -17,7 +17,7 @@
     <br>
     {foreach $genders as $genderRecord}
         <span>
-            <a n:href="Test:default, sportId => $sportId, genderId => $genderRecord->getId()" class="category-button">
+            <a n:href="Result:default, sportId => $sportId, genderId => $genderRecord->getId()" class="category-button">
                 {$genderRecord->getName()}
             </a>
         </span>

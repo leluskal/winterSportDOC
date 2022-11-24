@@ -20,6 +20,8 @@ class DisciplineForm extends Control
 
     public array $onDelete;
 
+    private int $sportId;
+
     private SportRepository $sportRepository;
 
     private GenderRepository $genderRepository;
@@ -98,6 +100,8 @@ class DisciplineForm extends Control
             $this->getPresenter()->flashMessage('The discipline record is updated', 'info');
         }
 
+        $this->sportId = $values->sport_id;
+
         $this->onFinish($this);
     }
 
@@ -106,5 +110,10 @@ class DisciplineForm extends Control
         $template = $this->getTemplate();
         $template->setFile(__DIR__ .'/disciplineForm.latte');
         $template->render();
+    }
+
+    public function getSportId(): int
+    {
+        return $this->sportId;
     }
 }
