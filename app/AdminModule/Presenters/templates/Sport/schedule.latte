@@ -1,8 +1,8 @@
 {block content}
 
-<h1 class="mt-4">{$discipline->getName()}({$discipline->getGender()->getName()}) - schedule</h1>
+<h1 class="mt-4">{$sport->getName()} - program</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="Schedule:create, disciplineId => $discipline->getId()" class="btn btn-warning">Add</a>
+    <a n:href="Schedule:create, sportId => $sport->getId()" class="btn btn-warning">Add</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -34,7 +34,7 @@
                         </td>
                         <td>
                             <a n:href="Schedule:edit, id => $schedule->getId()" class="btn btn-light">Edit</a>
-                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>
+{*                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>*}
                         </td>
                     </tr>
                 {/foreach}

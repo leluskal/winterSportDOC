@@ -39,6 +39,11 @@ class ScheduleForm extends Control
         $this->scheduleRepository = $scheduleRepository;
     }
 
+    public function setSportId(int $sportId): void
+    {
+        $this->sportId = $sportId;
+    }
+
     public function createComponentForm(): Form
     {
         $form = new Form();
@@ -48,7 +53,7 @@ class ScheduleForm extends Control
         $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
              ->setRequired('The sport is required');
 
-        $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBox())
+        $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBox($this->sportId))
              ->setPrompt('--Choose discipline--')
              ->setRequired('The discipline is required');
 

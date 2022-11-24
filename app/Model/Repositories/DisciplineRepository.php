@@ -28,9 +28,22 @@ class DisciplineRepository extends BaseRepository
             ->getResult();
     }
 
-    public function findAllForSelectBox(): array
+    public function findAllBySportIdAndGenderId(int $sportId, int $genderId): array
     {
-        $disciplines = $this->findAll();
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->andWhere('e.sport = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->andWhere('e.gender = :gender_id')
+            ->setParameter('gender_id', $genderId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllForSelectBox(int $sportId): array
+    {
+        $disciplines = $this->findAllBySportId($sportId);
 
         $returnArray = [];
 
@@ -41,16 +54,5 @@ class DisciplineRepository extends BaseRepository
         }
 
         return $returnArray;
-    }
-
-    public function findAllBySportId(int $sportId): array
-    {
-        return $this->em->createQueryBuilder()
-            ->select('e')
-            ->from($this->entityName, 'e')
-            ->where('e.sport = :sport_id')
-            ->setParameter('sport_id', $sportId)
-            ->getQuery()
-            ->getResult();
     }
 }

@@ -16,17 +16,6 @@ class ScheduleRepository extends BaseRepository
         return Schedule::class;
     }
 
-    public function findAllByDisciplineId(int $disciplineId): array
-    {
-        return $this->em->createQueryBuilder()
-            ->select('e')
-            ->from($this->entityName, 'e')
-            ->where('e.discipline = :discipline_id')
-            ->setParameter('discipline_id', $disciplineId)
-            ->getQuery()
-            ->getResult();
-    }
-
     /**
      * @return Schedule[]
      */
@@ -71,5 +60,16 @@ class ScheduleRepository extends BaseRepository
         }
 
         return $returnArray;
+    }
+
+    public function findAllBySportId(int $sportId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.sport = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->getQuery()
+            ->getResult();
     }
 }

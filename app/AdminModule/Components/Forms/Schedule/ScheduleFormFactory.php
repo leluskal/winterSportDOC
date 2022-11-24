@@ -26,8 +26,12 @@ class ScheduleFormFactory
         $this->scheduleRepository = $scheduleRepository;
     }
 
-    public function create(): ScheduleForm
+    public function create(int $sportId): ScheduleForm
     {
-        return new ScheduleForm($this->sportRepository, $this->disciplineRepository, $this->scheduleRepository);
+        $form = new ScheduleForm($this->sportRepository, $this->disciplineRepository, $this->scheduleRepository);
+
+        $form->setSportId($sportId);
+
+        return $form;
     }
 }

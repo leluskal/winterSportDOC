@@ -14,6 +14,8 @@ class SchedulePresenter extends Presenter
 
     private ScheduleFormFactory $scheduleFormFactory;
 
+    private int $sportId;
+
     public function __construct(ScheduleRepository $scheduleRepository, ScheduleFormFactory $scheduleFormFactory)
     {
         $this->scheduleRepository = $scheduleRepository;
@@ -22,7 +24,7 @@ class SchedulePresenter extends Presenter
 
     public function createComponentScheduleForm(): ScheduleForm
     {
-        $form = $this->scheduleFormFactory->create();
+        $form = $this->scheduleFormFactory->create($this->sportId);
 
         $form->onFinish[] =function (ScheduleForm $scheduleForm) use ($form) {
             $this->redirect('Sport:schedule', ['sportId' => $form->getSportId()]);
@@ -48,6 +50,10 @@ class SchedulePresenter extends Presenter
     public function renderCreate(int $sportId)
     {
         $this['scheduleForm']['form']['sport_id']->setDefaultValue($sportId);
+    }
 
+    public function actionCreate(int $sportId)
+    {
+        $this->sportId = $sportId;
     }
 }

@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Athlete\AthleteForm;
 use App\AdminModule\Components\Forms\Athlete\AthleteFormFactory;
 use App\Model\Repositories\AthleteRepository;
+use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Presenter;
 
 class AthletePresenter extends Presenter
@@ -14,10 +15,17 @@ class AthletePresenter extends Presenter
 
     private AthleteFormFactory $athleteFormFactory;
 
-    public function __construct(AthleteRepository $athleteRepository, AthleteFormFactory $athleteFormFactory)
+    private SportRepository $sportRepository;
+
+    public function __construct(
+        AthleteRepository $athleteRepository,
+        AthleteFormFactory $athleteFormFactory,
+        SportRepository $sportRepository
+    )
     {
         $this->athleteRepository = $athleteRepository;
         $this->athleteFormFactory = $athleteFormFactory;
+        $this->sportRepository = $sportRepository;
     }
 
     public function createComponentAthleteForm(): AthleteForm
@@ -37,7 +45,7 @@ class AthletePresenter extends Presenter
 
     public function renderDefault()
     {
-        $this->template->athletes = $this->athleteRepository->findAll();
+        $this->template->sports = $this->sportRepository->findAll();
     }
 
     public function renderEdit(int $id)
@@ -57,5 +65,11 @@ class AthletePresenter extends Presenter
     public function renderCreate()
     {
 
+    }
+
+    public function renderList(int $sportId)
+    {
+        $this->template->sport = $this->sportRepository->getById($sportId);
+        $this->template->athletes = $this->athleteRepository->findAllBySportId($sportId);
     }
 }

@@ -14,34 +14,26 @@
             {$sport->getName()}
         {/if}
     </h2>
-
-    <span class="category-button">
-            <a n:href="Test:default, sportId => $sportRecord->getId()">Disciplines</a>
-    </span>
     <br>
-    {ifset $disciplines}
-    {foreach $disciplines as $discipline}
+    {foreach $genders as $genderRecord}
         <span>
-           {$discipline->getName()}
+            <a n:href="Test:default, sportId => $sportId, genderId => $genderRecord->getId()" class="category-button">
+                {$genderRecord->getName()}
+            </a>
         </span>
     {/foreach}
+    <h2 id="sport-heading">
+        {if $gender !== null}
+            {$gender->getName()}
+        {/if}
+    </h2>
+    <br><br>
+    {ifset $disciplines}
+        {foreach $disciplines as $discipline}
+            <span class="category-button">
+                {$discipline->getName()}
+            </span>
+        {/foreach}
     {/ifset}
-
-
-
-
-{*    <span class="category-button">*}
-{*            Scoring*}
-{*    </span>*}
-{*    <span class="category-button">*}
-{*            Athletes*}
-{*    </span>*}
-
-
-
-
-
-
-
 
 </div>
