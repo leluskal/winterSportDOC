@@ -36,8 +36,7 @@ class ScheduleRepository extends BaseRepository
 
         foreach ($schedules as $schedule) {
             $scheduleId = $schedule->getId();
-            $schedule = $schedule->getDiscipline()->getSport()->getName() . ' - ' .
-                        $schedule->getDiscipline()->getName() . ' - ' .
+            $schedule = $schedule->getDiscipline()->getName() . ' - ' .
                         $schedule->getDiscipline()->getGender()->getName() .' - ' .
                         $schedule->getEventDate()->format('d.m.Y H:i') . ' - ' .
                         $schedule->getEventPlace();

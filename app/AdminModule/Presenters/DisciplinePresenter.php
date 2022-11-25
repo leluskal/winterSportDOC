@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
+use App\Model\Repositories\RaceEventRepository;
 use App\Model\Repositories\RaceResultRepository;
 use Nette\Application\UI\Presenter;
 
@@ -15,17 +16,17 @@ class DisciplinePresenter extends Presenter
 
     private DisciplineFormFactory $disciplineFormFactory;
 
-    private RaceResultRepository $raceResultRepository;
+    private RaceEventRepository $raceEventRepository;
 
     public function __construct(
         DisciplineRepository $disciplineRepository,
         DisciplineFormFactory $disciplineFormFactory,
-        RaceResultRepository $raceResultRepository
+        RaceEventRepository $raceEventRepository
     )
     {
         $this->disciplineRepository = $disciplineRepository;
         $this->disciplineFormFactory = $disciplineFormFactory;
-        $this->raceResultRepository = $raceResultRepository;
+        $this->raceEventRepository = $raceEventRepository;
     }
 
     public function createComponentDisciplineForm(): DisciplineForm
@@ -63,12 +64,6 @@ class DisciplinePresenter extends Presenter
     public function renderEvent(int $disciplineId)
     {
         $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-        $this->template->raceResults = $this->raceResultRepository->findAllByDisciplineId($disciplineId);
-    }
-
-    public function renderResult(int $disciplineId)
-    {
-        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-        $this->template->raceResults = $this->raceResultRepository->findAllByDisciplineId($disciplineId);
+        $this->template->raceEvents = $this->raceEventRepository->findAllByDisciplineId($disciplineId);
     }
 }

@@ -15,7 +15,7 @@ class RaceEvent
     /**
      * @var int
      * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
     private int $id;

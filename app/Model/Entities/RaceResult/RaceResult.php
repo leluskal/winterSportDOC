@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Model\Entities\RaceResult;
 
 use App\Model\Entities\Athlete\Athlete;
+use App\Model\Entities\RaceEvent\RaceEvent;
 use App\Model\Entities\RacePosition\RacePosition;
-use App\Model\Entities\Schedule\Schedule;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,10 +23,10 @@ class RaceResult
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Schedule\Schedule")
-     * @ORM\JoinColumn(name="schedule_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\RaceEvent\RaceEvent")
+     * @ORM\JoinColumn(name="race_event_id", referencedColumnName="id", nullable=false)
      */
-    private Schedule $schedule;
+    private RaceEvent $raceEvent;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Model\Entities\Athlete\Athlete")
@@ -40,9 +40,9 @@ class RaceResult
      */
     private RacePosition $racePosition;
 
-    public function __construct(Schedule $schedule, Athlete $athlete, RacePosition $racePosition)
+    public function __construct(RaceEvent $raceEvent, Athlete $athlete, RacePosition $racePosition)
     {
-        $this->schedule = $schedule;
+        $this->raceEvent = $raceEvent;
         $this->athlete = $athlete;
         $this->racePosition = $racePosition;
     }
@@ -56,19 +56,19 @@ class RaceResult
     }
 
     /**
-     * @return Schedule
+     * @return RaceEvent
      */
-    public function getSchedule(): Schedule
+    public function getRaceEvent(): RaceEvent
     {
-        return $this->schedule;
+        return $this->raceEvent;
     }
 
     /**
-     * @param Schedule $schedule
+     * @param RaceEvent $raceEvent
      */
-    public function setSchedule(Schedule $schedule): void
+    public function setRaceEvent(RaceEvent $raceEvent): void
     {
-        $this->schedule = $schedule;
+        $this->raceEvent = $raceEvent;
     }
 
     /**

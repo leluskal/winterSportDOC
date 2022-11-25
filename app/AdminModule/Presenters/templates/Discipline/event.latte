@@ -2,7 +2,7 @@
 
 <h1 class="mt-4">{$discipline->getName()} - Race Results</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="RaceResult:create" class="btn btn-warning">Add</a>
+    <a n:href="RaceEvent:create" class="btn btn-warning">Add</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -13,22 +13,17 @@
                 <thead>
                 <tr>
                     <th>Race Date</th>
-                    <th>Race Place</th>
-                    <th>Seen</th>
-                    <th></th>
+                    <th>Venue</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {foreach $raceResults as $result}
+                {foreach $raceEvents as $event}
                     <tr>
-                        <td>{$result->getSchedule()->getEventDate()->format('d.m.Y H:i')}</td>
-                        <td>{$result->getSchedule()->getEventPlace()}</td>
+                        <td>{$event->getSchedule()->getEventDate()->format('d.m.Y H:i')}</td>
+                        <td>{$event->getVenue()}</td>
                         <td>
-                            <a n:href="RaceResult:edit, id => $result->getId()" class="btn btn-light">Edit</a>
-                        </td>
-                        <td>
-                            <a n:href="Discipline:result, disciplineId => $result->getSchedule()->getDiscipline()->getId()" class="btn btn-info">Results</a>
+                            <a n:href="RaceEvent:edit, id => $event->getId()" class="btn btn-light">Edit</a>
                         </td>
                     </tr>
                 {/foreach}
