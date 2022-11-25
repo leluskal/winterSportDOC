@@ -28,4 +28,29 @@ class RaceEventRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return RaceEvent[]
+     */
+    public function findAll(): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllForSelectBox(): array
+    {
+        $raceEvents = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($raceEvents as $raceEvent) {
+            $returnArray[$raceEvent->getId()] = $raceEvent->getVenue();
+        }
+
+        return $returnArray;
+    }
 }

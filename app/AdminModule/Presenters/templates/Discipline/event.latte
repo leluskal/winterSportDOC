@@ -15,6 +15,7 @@
                     <th>Race Date</th>
                     <th>Venue</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,9 @@
                         <td>{$event->getVenue()}</td>
                         <td>
                             <a n:href="RaceEvent:edit, id => $event->getId()" class="btn btn-light">Edit</a>
+                        </td>
+                        <td>
+                            <a n:href="RaceEvent:result, raceEventId => $event->getId()" class="btn btn-info">Results</a>
                         </td>
                     </tr>
                 {/foreach}

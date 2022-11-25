@@ -21,7 +21,7 @@ class RaceEvent
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Schedule\Schedule")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Schedule\Schedule", fetch="EAGER")
      * @ORM\JoinColumn(name="schedule_id", referencedColumnName="id", nullable=false)
      */
     private Schedule $schedule;

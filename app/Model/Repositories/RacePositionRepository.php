@@ -39,9 +39,9 @@ class RacePositionRepository extends BaseRepository
             ->getResult();
     }
 
-    public function findAllForSelectBox(): array
+    public function findAllForSelectBoxBySportId(int $sportId): array
     {
-        $racePositions = $this->findAll();
+        $racePositions = $this->findAllBySportId($sportId);
 
         $returnArray = [];
 

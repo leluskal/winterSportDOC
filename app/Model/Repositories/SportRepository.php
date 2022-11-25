@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Repositories;
 
+use App\Model\Entities\RaceEvent\RaceEvent;
 use App\Model\Entities\Sport\Sport;
 
 /**
@@ -39,5 +40,22 @@ class SportRepository extends BaseRepository
         }
 
         return $returnArray;
+    }
+
+    public function getByRaceEventId(int $raceEventId): ?Sport
+    {
+        /** @var RaceEvent $raceEvent */
+        $raceEvent = $this->em->createQueryBuilder()
+            ->select('r')
+            ->from(RaceEvent::class, 'r')
+            ->leftJoin('r.schedule', 'sc')
+            ->leftJoin('sc.sport', 's')
+            ->andWhere('r.id = :race_event_id')
+            ->setParameter('race_event_id', $raceEventId)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+
+        return $raceEvent->getSchedule()->getSport();
     }
 }

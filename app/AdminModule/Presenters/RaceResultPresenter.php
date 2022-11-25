@@ -14,6 +14,8 @@ class RaceResultPresenter extends Presenter
 
     private RaceResultFormFactory $raceResultFormFactory;
 
+    private int $raceEventId;
+
     public function __construct(RaceResultRepository $raceResultRepository, RaceResultFormFactory $raceResultFormFactory)
     {
         $this->raceResultRepository = $raceResultRepository;
@@ -22,7 +24,7 @@ class RaceResultPresenter extends Presenter
 
     public function createComponentRaceResultForm(): RaceResultForm
     {
-        $form = $this->raceResultFormFactory->create();
+        $form = $this->raceResultFormFactory->create($this->raceEventId);
 
         $form->onFinish[] = function (RaceResultForm $raceResultForm) {
             $this->redirect('RaceResult:default');
@@ -36,22 +38,32 @@ class RaceResultPresenter extends Presenter
         $this->template->raceResults = $this->raceResultRepository->findAll();
     }
 
+    public function actionEdit(int $raceEventId)
+    {
+        $this->raceEventId = $raceEventId;
+    }
+
     public function renderEdit(int $id)
     {
         $raceResult = $this->raceResultRepository->getById($id);
-        $schedule = $raceResult->getSchedule();
+        $raceEvent = $raceResult->getRaceEvent();
         $athlete = $raceResult->getAthlete();
         $racePosition = $raceResult->getRacePosition();
 
         $this['raceResultForm']['form']['id']->setDefaultValue($raceResult->getId());
-        $this['raceResultForm']['form']['schedule_id']->setDefaultValue($schedule->getId());
+        $this['raceResultForm']['form']['race_event_id']->setDefaultValue($raceEvent->getId());
         $this['raceResultForm']['form']['athlete_id']->setDefaultValue($athlete->getId());
         $this['raceResultForm']['form']['race_position_id']->setDefaultValue($racePosition->getId());
     }
 
-    public function renderCreate()
+    public function actionCreate(int $raceEventId)
     {
+        $this->raceEventId = $raceEventId;
+    }
 
+    public function renderCreate(int $raceEventId)
+    {
+        $this['raceResultForm']['form']['race_event_id']->setDefaultValue($raceEventId);
     }
 
 }

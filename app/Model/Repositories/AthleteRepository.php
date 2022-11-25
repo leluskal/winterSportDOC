@@ -28,9 +28,22 @@ class AthleteRepository extends BaseRepository
             ->getResult();
     }
 
-    public function findAllForSelectBox(): array
+    public function findAllBySportIdAndGenderId(int $sportId, int $genderId): array
     {
-        $athletes = $this->findAll();
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->andWhere('e.sport = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->andWhere('e.gender = :gender_id')
+            ->setParameter('gender_id', $genderId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllForSelectBoxBySportIdAndGenderId(int $sportId, int $genderId): array
+    {
+        $athletes = $this->findAllBySportIdAndGenderId($sportId, $genderId);
 
         $returnArray = [];
 

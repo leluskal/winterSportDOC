@@ -40,4 +40,15 @@ class RaceResultRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllByRaceEventId(int $raceEventId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.raceEvent = :race_event_id')
+            ->setParameter('race_event_id', $raceEventId)
+            ->getQuery()
+            ->getResult();
+    }
 }
