@@ -5,15 +5,12 @@ namespace App\AdminModule\Components\Forms\RaceResult;
 
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RaceEventRepository;
 use App\Model\Repositories\RacePositionRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 
 class RaceResultFormFactory
 {
-    private RaceEventRepository $raceEventRepository;
-
     private AthleteRepository $athleteRepository;
 
     private RacePositionRepository $racePositionRepository;
@@ -25,7 +22,6 @@ class RaceResultFormFactory
     private DisciplineRepository $disciplineRepository;
 
     public function __construct(
-        RaceEventRepository $raceEventRepository,
         AthleteRepository $athleteRepository,
         RacePositionRepository $racePositionRepository,
         RaceResultRepository $raceResultRepository,
@@ -33,7 +29,6 @@ class RaceResultFormFactory
         DisciplineRepository $disciplineRepository
     )
     {
-        $this->raceEventRepository = $raceEventRepository;
         $this->athleteRepository = $athleteRepository;
         $this->racePositionRepository = $racePositionRepository;
         $this->raceResultRepository = $raceResultRepository;
@@ -41,16 +36,17 @@ class RaceResultFormFactory
         $this->disciplineRepository = $disciplineRepository;
     }
 
-    public function create(int $raceEventId): RaceResultForm
+    public function create(int $scheduleId): RaceResultForm
     {
+        $schedule = $this->scheduleRepository->getById($scheduleId);
+
         return new RaceResultForm(
-            $this->raceEventRepository,
             $this->athleteRepository,
             $this->racePositionRepository,
             $this->raceResultRepository,
             $this->scheduleRepository,
             $this->disciplineRepository,
-            $raceEventId
+            $schedule
         );
     }
 }

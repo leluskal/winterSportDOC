@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\AdminModule\Components\Forms\RaceResult;
 
 use App\Model\Entities\RaceResult\RaceResult;
+use App\Model\Entities\Schedule\Schedule;
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RaceEventRepository;
 use App\Model\Repositories\RacePositionRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
@@ -21,8 +21,6 @@ class RaceResultForm extends Control
 
     public array $onFinish;
 
-    private RaceEventRepository $raceEventRepository;
-
     private AthleteRepository $athleteRepository;
 
     private RacePositionRepository $racePositionRepository;
@@ -33,25 +31,23 @@ class RaceResultForm extends Control
 
     private DisciplineRepository $disciplineRepository;
 
-    private int $raceEventId;
+    private Schedule $schedule;
 
     public function __construct(
-        RaceEventRepository $raceEventRepository,
         AthleteRepository $athleteRepository,
         RacePositionRepository $racePositionRepository,
         RaceResultRepository $raceResultRepository,
         ScheduleRepository $scheduleRepository,
         DisciplineRepository $disciplineRepository,
-        int $raceEventId
+        Schedule $schedule
     )
     {
-        $this->raceEventRepository = $raceEventRepository;
         $this->athleteRepository = $athleteRepository;
         $this->racePositionRepository = $racePositionRepository;
         $this->raceResultRepository = $raceResultRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->disciplineRepository = $disciplineRepository;
-        $this->raceEventId = $raceEventId;
+        $this->schedule = $schedule;
     }
 
     public function createComponentForm(): Form
@@ -60,16 +56,19 @@ class RaceResultForm extends Control
 
         $form->addHidden('id');
 
-        $form->addSelect('race_event_id', 'Event', $this->raceEventRepository->findAllForSelectBox())
-             ->setPrompt('--Choose event-')
-             ->setRequired('The event is required');
+        $form->addSelect('schedule_id', 'Schedule', $this->scheduleRepository->findAllForSelectBoxBySportId($this->schedule->getSport()->getId()))
+             ->setPrompt('--Choose schedule--')
+             ->setRequired('The schedule is required');
 
-        $athletesArray = $this->athleteRepository->findAllForSelectBoxBySportIdAndGenderId($this->getSportId(), $this->getGenderId());
+        $athletesArray = $this->athleteRepository->findAllForSelectBoxBySportIdAndGenderId(
+            $this->schedule->getSport()->getId(),
+            $this->schedule->getDiscipline()->getGender()->getId()
+        );
         $form->addSelect('athlete_id', 'Athlete', $athletesArray)
              ->setPrompt('--Choose athlete--')
              ->setRequired('The athlete is required');
 
-        $positionsArray = $this->racePositionRepository->findAllForSelectBoxBySportId($this->getSportId());
+        $positionsArray = $this->racePositionRepository->findAllForSelectBoxBySportId($this->schedule->getSport()->getId());
         $form->addSelect('race_position_id', 'Race Position', $positionsArray)
              ->setPrompt('--Choose race position--')
              ->setRequired('The race position is required');
@@ -83,13 +82,13 @@ class RaceResultForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
-        $raceEvent = $this->raceEventRepository->getById((int) $values->race_event_id);
+        $schedule = $this->scheduleRepository->getById((int) $values->schedule_id);
         $athlete = $this->athleteRepository->getById((int) $values->athlete_id);
         $racePosition = $this->racePositionRepository->getById((int) $values->race_position_id);
 
         if ($values->id === '') {
             $raceResult = new RaceResult(
-                $raceEvent,
+                $schedule,
                 $athlete,
                 $racePosition
             );
@@ -101,13 +100,15 @@ class RaceResultForm extends Control
         if ($values->id !== '') {
             $raceResult = $this->raceResultRepository->getById((int) $values->id);
 
-            $raceResult->setRaceEvent($raceEvent);
+            $raceResult->setSchedule($schedule);
             $raceResult->setAthlete($athlete);
             $raceResult->setRacePosition($racePosition);
 
             $this->raceResultRepository->save($raceResult);
             $this->getPresenter()->flashMessage('The record is updated', 'info');
         }
+
+        $this->schedule = $values->schedule_id;
 
         $this->onFinish($this);
     }
@@ -119,19 +120,8 @@ class RaceResultForm extends Control
         $template->render();
     }
 
-    public function getSportId(): int
+    public function getSchedule(): Schedule
     {
-        $raceEvent = $this->raceEventRepository->getById($this->raceEventId);
-
-        return $raceEvent->getSchedule()->getSport()->getId();
-    }
-
-    private function getGenderId(): int
-    {
-        $raceEvent = $this->raceEventRepository->getById($this->raceEventId);
-        $schedule = $this->scheduleRepository->getById($raceEvent->getSchedule()->getId());
-        $discipline = $this->disciplineRepository->getById($schedule->getDiscipline()->getId());
-
-        return $discipline->getGender()->getId();
+        return $this->schedule;
     }
 }

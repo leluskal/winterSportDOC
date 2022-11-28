@@ -14,7 +14,7 @@ class RaceResultPresenter extends Presenter
 
     private RaceResultFormFactory $raceResultFormFactory;
 
-    private int $raceEventId;
+    private int $scheduleId;
 
     public function __construct(RaceResultRepository $raceResultRepository, RaceResultFormFactory $raceResultFormFactory)
     {
@@ -24,46 +24,41 @@ class RaceResultPresenter extends Presenter
 
     public function createComponentRaceResultForm(): RaceResultForm
     {
-        $form = $this->raceResultFormFactory->create($this->raceEventId);
+        $form = $this->raceResultFormFactory->create($this->scheduleId);
 
-        $form->onFinish[] = function (RaceResultForm $raceResultForm) {
-            $this->redirect('RaceResult:default');
+        $form->onFinish[] = function (RaceResultForm $raceResultForm) use ($form) {
+            $this->redirect('Schedule:result', ['scheduleId' => $form->getSchedule()->getId()]);
         };
 
         return $form;
     }
 
-    public function renderDefault()
+    public function actionEdit(int $scheduleId)
     {
-        $this->template->raceResults = $this->raceResultRepository->findAll();
-    }
-
-    public function actionEdit(int $raceEventId)
-    {
-        $this->raceEventId = $raceEventId;
+        $this->scheduleId = $scheduleId;
     }
 
     public function renderEdit(int $id)
     {
         $raceResult = $this->raceResultRepository->getById($id);
-        $raceEvent = $raceResult->getRaceEvent();
+        $schedule = $raceResult->getSchedule();
         $athlete = $raceResult->getAthlete();
         $racePosition = $raceResult->getRacePosition();
 
         $this['raceResultForm']['form']['id']->setDefaultValue($raceResult->getId());
-        $this['raceResultForm']['form']['race_event_id']->setDefaultValue($raceEvent->getId());
+        $this['raceResultForm']['form']['schedule_id']->setDefaultValue($schedule->getId());
         $this['raceResultForm']['form']['athlete_id']->setDefaultValue($athlete->getId());
         $this['raceResultForm']['form']['race_position_id']->setDefaultValue($racePosition->getId());
     }
 
-    public function actionCreate(int $raceEventId)
+    public function actionCreate(int $scheduleId)
     {
-        $this->raceEventId = $raceEventId;
+        $this->scheduleId = $scheduleId;
     }
 
-    public function renderCreate(int $raceEventId)
+    public function renderCreate(int $scheduleId)
     {
-        $this['raceResultForm']['form']['race_event_id']->setDefaultValue($raceEventId);
+        $this['raceResultForm']['form']['schedule_id']->setDefaultValue($scheduleId);
     }
 
 }

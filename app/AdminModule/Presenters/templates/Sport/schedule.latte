@@ -9,11 +9,12 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>Event Date</th>
+                    <th class="no-sort">Event Date</th>
                     <th>Event Place</th>
+                    <th>Discipline</th>
                     <th>Seen</th>
                     <th></th>
                 </tr>
@@ -24,6 +25,10 @@
                         <td>{$schedule->getEventDate()->format('d.m.Y H:i')}</td>
                         <td>{$schedule->getEventPlace()}</td>
                         <td>
+                            {$schedule->getDiscipline()->getName()}
+                            ({$schedule->getDiscipline()->getGender()->getName()})
+                        </td>
+                        <td>
                             <div class="part-icon-block">
                                 {if $schedule->isSeen()}
                                     <i class="far fa-check-square"></i>
@@ -33,8 +38,9 @@
                             </div>
                         </td>
                         <td>
-                            <a n:href="Schedule:edit, id => $schedule->getId()" class="btn btn-light">Edit</a>
-{*                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>*}
+                            <a n:href="Schedule:edit, sportId => $schedule->getSport()->getId(), id => $schedule->getId()" class="btn btn-light">Edit</a>
+                            <a n:href="Schedule:result, sportId => $schedule->getSport()->getId(), scheduleId => $schedule->getId()" class="btn btn-info">Results</a>
+                            {*                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>*}
                         </td>
                     </tr>
                 {/foreach}

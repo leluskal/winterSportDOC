@@ -5,6 +5,7 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components\Forms\Schedule\ScheduleForm;
 use App\AdminModule\Components\Forms\Schedule\ScheduleFormFactory;
+use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 use Nette\Application\UI\Presenter;
 
@@ -14,12 +15,19 @@ class SchedulePresenter extends Presenter
 
     private ScheduleFormFactory $scheduleFormFactory;
 
+    private RaceResultRepository $raceResultRepository;
+
     private int $sportId;
 
-    public function __construct(ScheduleRepository $scheduleRepository, ScheduleFormFactory $scheduleFormFactory)
+    public function __construct(
+        ScheduleRepository $scheduleRepository,
+        ScheduleFormFactory $scheduleFormFactory,
+        RaceResultRepository $raceResultRepository
+    )
     {
         $this->scheduleRepository = $scheduleRepository;
         $this->scheduleFormFactory = $scheduleFormFactory;
+        $this->raceResultRepository = $raceResultRepository;
     }
 
     public function createComponentScheduleForm(): ScheduleForm
@@ -55,5 +63,16 @@ class SchedulePresenter extends Presenter
     public function actionCreate(int $sportId)
     {
         $this->sportId = $sportId;
+    }
+
+    public function actionEdit(int $sportId)
+    {
+        $this->sportId = $sportId;
+    }
+
+    public function renderResult(int $scheduleId)
+    {
+        $this->template->schedule = $this->scheduleRepository->getById($scheduleId);
+        $this->template->raceResults = $this->raceResultRepository->findAllByScheduleId($scheduleId);
     }
 }

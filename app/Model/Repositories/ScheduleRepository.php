@@ -24,6 +24,7 @@ class ScheduleRepository extends BaseRepository
         return $this->em->createQueryBuilder()
             ->select('e')
             ->from($this->entityName, 'e')
+            ->orderBy('e.eventDate', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -61,6 +62,10 @@ class ScheduleRepository extends BaseRepository
         return $returnArray;
     }
 
+    /**
+     * @param int $sportId
+     * @return Schedule[]
+     */
     public function findAllBySportId(int $sportId): array
     {
         return $this->em->createQueryBuilder()
@@ -68,7 +73,23 @@ class ScheduleRepository extends BaseRepository
             ->from($this->entityName, 'e')
             ->where('e.sport = :sport_id')
             ->setParameter('sport_id', $sportId)
+            ->orderBy('e.eventDate', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllForSelectBoxBySportId(int $sportId): array
+    {
+        $schedules = $this->findAllBySportId($sportId);
+
+        $returnArray = [];
+
+        foreach ($schedules as $schedule) {
+            $scheduleId = $schedule->getId();
+            $schedule = $schedule->getDiscipline()->getName() . '(' . $schedule->getDiscipline()->getGender()->getName() . ')';
+            $returnArray[$scheduleId] = $schedule;
+        }
+
+        return $returnArray;
     }
 }

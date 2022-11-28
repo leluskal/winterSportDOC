@@ -6,8 +6,6 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RaceEventRepository;
-use App\Model\Repositories\RaceResultRepository;
 use Nette\Application\UI\Presenter;
 
 class DisciplinePresenter extends Presenter
@@ -16,17 +14,14 @@ class DisciplinePresenter extends Presenter
 
     private DisciplineFormFactory $disciplineFormFactory;
 
-    private RaceEventRepository $raceEventRepository;
 
     public function __construct(
         DisciplineRepository $disciplineRepository,
-        DisciplineFormFactory $disciplineFormFactory,
-        RaceEventRepository $raceEventRepository
+        DisciplineFormFactory $disciplineFormFactory
     )
     {
         $this->disciplineRepository = $disciplineRepository;
         $this->disciplineFormFactory = $disciplineFormFactory;
-        $this->raceEventRepository = $raceEventRepository;
     }
 
     public function createComponentDisciplineForm(): DisciplineForm
@@ -54,6 +49,7 @@ class DisciplinePresenter extends Presenter
         $this['disciplineForm']['form']['sport_id']->setDefaultValue($sport->getId());
         $this['disciplineForm']['form']['gender_id']->setDefaultValue($gender->getId());
         $this['disciplineForm']['form']['name']->setDefaultValue($discipline->getName());
+        $this['disciplineForm']['form']['world_cup_points']->setDefaultValue($discipline->isWorldCupPoints());
     }
 
     public function renderCreate(int $sportId)
@@ -61,9 +57,4 @@ class DisciplinePresenter extends Presenter
         $this['disciplineForm']['form']['sport_id']->setDefaultValue($sportId);
     }
 
-    public function renderEvent(int $disciplineId)
-    {
-        $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-        $this->template->raceEvents = $this->raceEventRepository->findAllByDisciplineId($disciplineId);
-    }
 }

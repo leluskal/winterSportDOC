@@ -23,13 +23,13 @@ class Schedule
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport", fetch="EAGER")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=false)
      */
     private Sport $sport;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline", fetch="EAGER")
      * @ORM\JoinColumn(name="discipline_id", referencedColumnName="id", nullable=false)
      */
     private Discipline $discipline;
@@ -52,7 +52,7 @@ class Schedule
      */
     private bool $seen;
 
-    public function __construct(Sport $sport,Discipline $discipline, DateTime $eventDate, string $eventPlace, bool $seen)
+    public function __construct(Sport $sport, Discipline $discipline, DateTime $eventDate, string $eventPlace, bool $seen)
     {
         $this->sport = $sport;
         $this->discipline = $discipline;

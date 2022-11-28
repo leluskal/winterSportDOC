@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Model\Entities\RaceResult;
 
 use App\Model\Entities\Athlete\Athlete;
-use App\Model\Entities\RaceEvent\RaceEvent;
 use App\Model\Entities\RacePosition\RacePosition;
+use App\Model\Entities\Schedule\Schedule;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,26 +23,26 @@ class RaceResult
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\RaceEvent\RaceEvent")
-     * @ORM\JoinColumn(name="race_event_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Schedule\Schedule", fetch="EAGER")
+     * @ORM\JoinColumn(name="schedule_id", referencedColumnName="id", nullable=false)
      */
-    private RaceEvent $raceEvent;
+    private Schedule $schedule;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Athlete\Athlete")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Athlete\Athlete", fetch="EAGER")
      * @ORM\JoinColumn(name="athlete_id", referencedColumnName="id", nullable=false)
      */
     private Athlete $athlete;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\RacePosition\RacePosition")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\RacePosition\RacePosition", fetch="EAGER")
      * @ORM\JoinColumn(name="race_position_id", referencedColumnName="id", nullable=false)
      */
     private RacePosition $racePosition;
 
-    public function __construct(RaceEvent $raceEvent, Athlete $athlete, RacePosition $racePosition)
+    public function __construct(Schedule $schedule, Athlete $athlete, RacePosition $racePosition)
     {
-        $this->raceEvent = $raceEvent;
+        $this->schedule = $schedule;
         $this->athlete = $athlete;
         $this->racePosition = $racePosition;
     }
@@ -56,19 +56,19 @@ class RaceResult
     }
 
     /**
-     * @return RaceEvent
+     * @return Schedule
      */
-    public function getRaceEvent(): RaceEvent
+    public function getSchedule(): Schedule
     {
-        return $this->raceEvent;
+        return $this->schedule;
     }
 
     /**
-     * @param RaceEvent $raceEvent
+     * @param Schedule $schedule
      */
-    public function setRaceEvent(RaceEvent $raceEvent): void
+    public function setSchedule(Schedule $schedule): void
     {
-        $this->raceEvent = $raceEvent;
+        $this->schedule = $schedule;
     }
 
     /**

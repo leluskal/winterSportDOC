@@ -46,7 +46,7 @@ class RacePositionRepository extends BaseRepository
         $returnArray = [];
 
         foreach ($racePositions as $racePosition) {
-            $returnArray[$racePosition->getId()] = $racePosition->getSport()->getName() . '  ' . $racePosition->getPosition();
+            $returnArray[$racePosition->getId()] = $racePosition->getPosition() . ' (' . $racePosition->getPoint() . 'points)';
         }
 
         return $returnArray;

@@ -56,6 +56,8 @@ class DisciplineForm extends Control
         $form->addText('name', 'Discipline')
              ->setRequired('The name is required');
 
+        $form->addCheckbox('world_cup_points', 'World Cup Points');
+
         $form->addSubmit('save', 'Save');
 
         $form->addSubmit('delete', 'Delete')
@@ -82,7 +84,8 @@ class DisciplineForm extends Control
             $discipline = new Discipline(
                 $sport,
                 $gender,
-                $values->name
+                $values->name,
+                $values->world_cup_points
             );
 
             $this->disciplineRepository->save($discipline);
@@ -95,6 +98,7 @@ class DisciplineForm extends Control
             $discipline->setSport($sport);
             $discipline->setGender($gender);
             $discipline->setName($values->name);
+            $discipline->setWorldCupPoints($values->world_cup_points);
 
             $this->disciplineRepository->save($discipline);
             $this->getPresenter()->flashMessage('The discipline record is updated', 'info');

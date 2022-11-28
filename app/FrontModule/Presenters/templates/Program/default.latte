@@ -15,14 +15,14 @@
                         <b>{$schedule->getEventDate()->format('H:i')}</b>
                     </td>
                     <td>
-                        <a n:href=":Admin:Schedule:edit, id => $schedule->getId()">
+                        <a n:href=":Admin:Schedule:edit, sportId => $schedule->getSport()->getId(), id => $schedule->getId()">
                             {$schedule->getDiscipline()->getSport()->getName()} -
                         </a>
                         {$schedule->getDiscipline()->getName()}
                         ({$schedule->getDiscipline()->getGender()->getName()})
                     </td>
                     <td>
-                        {if $schedule->isSeen() === 1}
+                        {if $schedule->isSeen() === 0}
                             <i class="fas fa-eye"></i>
                         {/if}
                     </td>

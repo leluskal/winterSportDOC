@@ -39,11 +39,19 @@ class Discipline
      */
     private string $name;
 
-    public function __construct(Sport $sport, Gender $gender, string $name)
+    /**
+     * @var bool
+     * @ORM\Column(type="integer")
+     *
+     */
+    private bool $worldCupPoints;
+
+    public function __construct(Sport $sport, Gender $gender, string $name, bool $worldCupPoints)
     {
         $this->sport = $sport;
         $this->gender = $gender;
         $this->name = $name;
+        $this->worldCupPoints = $worldCupPoints;
     }
 
     /**
@@ -100,5 +108,21 @@ class Discipline
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWorldCupPoints(): bool
+    {
+        return $this->worldCupPoints;
+    }
+
+    /**
+     * @param bool $worldCupPoints
+     */
+    public function setWorldCupPoints(bool $worldCupPoints): void
+    {
+        $this->worldCupPoints = $worldCupPoints;
     }
 }
