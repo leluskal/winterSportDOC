@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\AdminModule\Components\Forms\RacePosition;
 
 use App\Model\Entities\RacePosition\RacePosition;
+use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\RacePositionRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Control;
@@ -23,11 +24,18 @@ class RacePositionForm extends Control
 
     private SportRepository $sportRepository;
 
+    private DisciplineRepository $disciplineRepository;
+
     private RacePositionRepository $racePositionRepository;
 
-    public function __construct(SportRepository $sportRepository, RacePositionRepository $racePositionRepository)
+    public function __construct(
+        SportRepository $sportRepository,
+        DisciplineRepository $disciplineRepository,
+        RacePositionRepository $racePositionRepository
+    )
     {
         $this->sportRepository = $sportRepository;
+        $this->disciplineRepository = $disciplineRepository;
         $this->racePositionRepository = $racePositionRepository;
     }
 
@@ -39,6 +47,10 @@ class RacePositionForm extends Control
 
         $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
              ->setRequired('The sport is required');
+
+        $form->addSelect('discipline_id', 'Discipline', $this->disciplineRepository->findAllForSelectBox((int) $this->sportId))
+             ->setPrompt('--Choose discipline--')
+             ->setRequired('The discipline is required');
 
         $form->addInteger('position', 'Position')
              ->setRequired('The position is required');
@@ -56,10 +68,12 @@ class RacePositionForm extends Control
     public function formSuccess(Form $form, ArrayHash $values)
     {
         $sport = $this->sportRepository->getById((int) $values->sport_id);
+        $discipline = $this->disciplineRepository->getById((int) $values->discipline_id);
 
         if ($values->id === '') {
             $racePosition = new RacePosition(
                 $sport,
+                $discipline,
                 $values->position,
                 $values->point
             );
@@ -72,6 +86,7 @@ class RacePositionForm extends Control
             $racePosition = $this->racePositionRepository->getById((int) $values->id);
 
             $racePosition->setSport($sport);
+            $racePosition->setDiscipline($discipline);
             $racePosition->setPosition($values->position);
             $racePosition->setPoint($values->point);
 

@@ -5,7 +5,6 @@ namespace App\AdminModule\Components\Forms\Discipline;
 
 use App\Model\Entities\Discipline\Discipline;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\GenderRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -24,18 +23,14 @@ class DisciplineForm extends Control
 
     private SportRepository $sportRepository;
 
-    private GenderRepository $genderRepository;
-
     private DisciplineRepository $disciplineRepository;
 
     public function __construct(
         SportRepository $sportRepository,
-        GenderRepository $genderRepository,
         DisciplineRepository $disciplineRepository
     )
     {
         $this->sportRepository = $sportRepository;
-        $this->genderRepository = $genderRepository;
         $this->disciplineRepository = $disciplineRepository;
     }
 
@@ -48,10 +43,6 @@ class DisciplineForm extends Control
         $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
              ->setPrompt('--Choose sport--')
              ->setRequired('The sport is required');
-
-        $form->addSelect('gender_id', 'Gender', $this->genderRepository->findAllForSelectBox())
-             ->setPrompt('--Choose gender--')
-             ->setRequired('The gender is required');
 
         $form->addText('name', 'Discipline')
              ->setRequired('The name is required');
@@ -78,12 +69,10 @@ class DisciplineForm extends Control
         }
 
         $sport = $this->sportRepository->getById((int) $values->sport_id);
-        $gender = $this->genderRepository->getById((int) $values->gender_id);
 
         if ($values->id === '') {
             $discipline = new Discipline(
                 $sport,
-                $gender,
                 $values->name,
                 $values->world_cup_points
             );
@@ -96,7 +85,6 @@ class DisciplineForm extends Control
             $discipline = $this->disciplineRepository->getById((int)$values->id);
 
             $discipline->setSport($sport);
-            $discipline->setGender($gender);
             $discipline->setName($values->name);
             $discipline->setWorldCupPoints($values->world_cup_points);
 

@@ -108,7 +108,7 @@ class RaceResultForm extends Control
             $this->getPresenter()->flashMessage('The record is updated', 'info');
         }
 
-        $this->schedule = $values->schedule_id;
+        $this->schedule = $schedule;
 
         $this->onFinish($this);
     }

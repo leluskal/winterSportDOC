@@ -1,0 +1,12 @@
+{block content}
+
+<h1>{$discipline->getName()}</h1>
+
+{foreach $schedules as $schedule}
+    <p>{$schedule->getEventDate()->format('d.m.Y H:i')}</p>
+    <p>{$schedule->getEventPlace()}</p>
+    <p>
+        {$schedule->getDiscipline()->getName()}
+        ({$schedule->getDiscipline()->getGender()->getName()})
+    </p>
+{/foreach}

@@ -53,7 +53,7 @@ class ScheduleForm extends Control
         $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
              ->setRequired('The sport is required');
 
-        $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBox($this->sportId))
+        $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBoxBySportId($this->sportId))
              ->setPrompt('--Choose discipline--')
              ->setRequired('The discipline is required');
 

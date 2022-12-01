@@ -13,7 +13,6 @@
                 <thead>
                 <tr>
                     <th>Discipline</th>
-                    <th>Gender</th>
                     <th>World Cup Points</th>
                     <th></th>
                     <th></th>
@@ -25,7 +24,6 @@
                         <td>
                             {$discipline->getName()}
                         </td>
-                        <td>{$discipline->getGender()->getName()}</td>
                         <td>
                             <div class="part-icon-block">
                                 {if $discipline->isWorldCupPoints()}
@@ -37,6 +35,9 @@
                         </td>
                         <td>
                             <a n:href="Discipline:edit, id => $discipline->getId()" class="btn btn-light">Edit</a>
+                        </td>
+                        <td>
+                            <a n:href="Discipline:scoring, disciplineId => $discipline->getId()" class="btn btn-info">Scoring</a>
                         </td>
                     </tr>
                 {/foreach}

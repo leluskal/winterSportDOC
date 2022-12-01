@@ -22,18 +22,79 @@
             </a>
         </span>
     {/foreach}
+    <br><br>
     <h2 id="sport-heading">
         {if $gender !== null}
             {$gender->getName()}
         {/if}
     </h2>
-    <br><br>
+    <br>
+    <h2>
+        <span class="category-button">World Cup Standing</span>
+    </h2>
+    <br>
     {ifset $disciplines}
-        {foreach $disciplines as $discipline}
-            <span class="category-button">
-                {$discipline->getName()}
+        {foreach $disciplines as $disciplineData}
+            <span>
+                <a n:href="Result:default, sportId => $sportId, genderId => $genderId, disciplineId => $disciplineData->getId()" class="category-button">
+                    {$disciplineData->getName()}
+                </a>
             </span>
         {/foreach}
     {/ifset}
-
+    <br><br>
+    <h2 id="sport-heading">
+        {if $discipline !== null}
+            {$discipline->getName()}
+        {/if}
+    </h2>
+    <br>
+    <span>
+{*        <a n:href="Result:finishedRace, disciplineId => $disciplineId" class="category-button">Finished Races</a>*}
+    </span>
+    <br>
+    <table class="table-position">
+        {foreach $totalResultsByDiscipline as $totalResultByDiscipline}
+            <tr>
+                <td>{$iterator->counter}.</td>
+                <td>
+                    {$totalResultByDiscipline['firstname']}
+                    {$totalResultByDiscipline['lastname']}
+                </td>
+                {if $totalResultByDiscipline['totalPoints'] > 1}
+                    <td>{$totalResultByDiscipline['totalPoints']} points</td>
+                {else}
+                    <td>{$totalResultByDiscipline['totalPoints']} point</td>
+                {/if}
+            </tr>
+        {/foreach}
+    </table>
+    <br><br>
+        <h2>World Cup Standing:</h2>
+        <table class="table-position">
+                {foreach $totalResults as $totalResult}
+                    <tr>
+                        <td>
+                            {if $iterator->counter === 1}
+                                <i class="fas fa-trophy"></i>
+                            {elseif $iterator->counter === 2}
+                                <span id="silver-medal"><i class="fas fa-medal"></i></span>
+                            {elseif $iterator->counter === 3}
+                                <span id="bronze-medal"><i class="fas fa-medal"></i></span>
+                            {else}
+                                {$iterator->counter}.
+                            {/if}
+                        </td>
+                        <td>
+                            {$totalResult['firstname']}
+                            {$totalResult['lastname']}
+                        </td>
+                        {if $totalResult['totalPoints'] > 1}
+                            <td>{$totalResult['totalPoints']} points</td>
+                        {else}
+                            <td>{$totalResult['totalPoints']} point</td>
+                        {/if}
+                    </tr>
+                {/foreach}
+        </table>
 </div>

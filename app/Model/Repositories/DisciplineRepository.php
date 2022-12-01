@@ -52,7 +52,7 @@ class DisciplineRepository extends BaseRepository
             ->getResult();
     }
 
-    public function findAllForSelectBox(int $sportId): array
+    public function findAllForSelectBoxBySportId(int $sportId): array
     {
         $disciplines = $this->findAllBySportId($sportId);
 
@@ -66,4 +66,21 @@ class DisciplineRepository extends BaseRepository
 
         return $returnArray;
     }
+
+    public function findAllForSelectBox(): array
+    {
+        $disciplines = $this->findAll();
+
+        $returnArray = [];
+
+        foreach ($disciplines as $discipline) {
+            $disciplineId = $discipline->getId();
+            $discipline = $discipline->getSport()->getName() . ' - ' . $discipline->getName() . '(' . $discipline->getGender()->getName() . ')';
+            $returnArray[$disciplineId] = $discipline;
+        }
+
+        return $returnArray;
+    }
+
+
 }

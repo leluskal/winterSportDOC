@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entities\Discipline;
 
-use App\Model\Entities\Gender\Gender;
 use App\Model\Entities\Sport\Sport;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,16 +21,10 @@ class Discipline
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport", fetch="EAGER")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=false)
      */
     private Sport $sport;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Gender\Gender")
-     * @ORM\JoinColumn(name="gender_id", referencedColumnName="id", nullable=false)
-     */
-    private Gender $gender;
 
     /**
      * @var string
@@ -46,10 +39,9 @@ class Discipline
      */
     private bool $worldCupPoints;
 
-    public function __construct(Sport $sport, Gender $gender, string $name, bool $worldCupPoints)
+    public function __construct(Sport $sport, string $name, bool $worldCupPoints)
     {
         $this->sport = $sport;
-        $this->gender = $gender;
         $this->name = $name;
         $this->worldCupPoints = $worldCupPoints;
     }
@@ -76,22 +68,6 @@ class Discipline
     public function setSport(Sport $sport): void
     {
         $this->sport = $sport;
-    }
-
-    /**
-     * @return Gender
-     */
-    public function getGender(): Gender
-    {
-        return $this->gender;
-    }
-
-    /**
-     * @param Gender $gender
-     */
-    public function setGender(Gender $gender): void
-    {
-        $this->gender = $gender;
     }
 
     /**

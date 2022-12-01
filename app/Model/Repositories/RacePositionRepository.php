@@ -39,6 +39,17 @@ class RacePositionRepository extends BaseRepository
             ->getResult();
     }
 
+    public function findAllByDisciplineId(int $disciplineId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.discipline = :discipline_id')
+            ->setParameter('discipline_id', $disciplineId)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllForSelectBoxBySportId(int $sportId): array
     {
         $racePositions = $this->findAllBySportId($sportId);
@@ -46,7 +57,7 @@ class RacePositionRepository extends BaseRepository
         $returnArray = [];
 
         foreach ($racePositions as $racePosition) {
-            $returnArray[$racePosition->getId()] = $racePosition->getPosition() . ' (' . $racePosition->getPoint() . 'points)';
+            $returnArray[$racePosition->getId()] = $racePosition->getPosition() . '. (' . $racePosition->getPoint() . ' points)';
         }
 
         return $returnArray;

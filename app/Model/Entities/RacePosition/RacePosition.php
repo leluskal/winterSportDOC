@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entities\RacePosition;
 
+use App\Model\Entities\Discipline\Discipline;
 use App\Model\Entities\Sport\Sport;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +28,13 @@ class RacePosition
     private Sport $sport;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline")
+     * @ORM\JoinColumn(name="discipline_id", referencedColumnName="id", nullable=false)
+     */
+    private Discipline $discipline;
+
+
+    /**
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -38,9 +46,10 @@ class RacePosition
      */
     private int $point;
 
-    public function __construct(Sport $sport, int $position, int $point)
+    public function __construct(Sport $sport, Discipline $discipline, int $position, int $point)
     {
         $this->sport = $sport;
+        $this->discipline = $discipline;
         $this->position = $position;
         $this->point = $point;
     }
@@ -67,6 +76,22 @@ class RacePosition
     public function setSport(Sport $sport): void
     {
         $this->sport = $sport;
+    }
+
+    /**
+     * @return Discipline
+     */
+    public function getDiscipline(): Discipline
+    {
+        return $this->discipline;
+    }
+
+    /**
+     * @param Discipline $discipline
+     */
+    public function setDiscipline(Discipline $discipline): void
+    {
+        $this->discipline = $discipline;
     }
 
     /**

@@ -42,16 +42,18 @@ class RacePositionPresenter extends Presenter
     {
         $racePosition = $this->racePositionRepository->getById($id);
         $sport = $racePosition->getSport();
+        $discipline = $racePosition->getDiscipline();
 
         $this['racePositionForm']['form']['id']->setDefaultValue($racePosition->getId());
         $this['racePositionForm']['form']['sport_id']->setDefaultValue($sport->getId());
+        $this['racePositionForm']['form']['discipline_id']->setDefaultValue($discipline->getId());
         $this['racePositionForm']['form']['position']->setDefaultValue($racePosition->getPosition());
         $this['racePositionForm']['form']['point']->setDefaultValue($racePosition->getPoint());
     }
 
-    public function renderCreate(int $sportId)
+    public function renderCreate(int $disciplineId)
     {
-        $this['racePositionForm']['form']['sport_id']->setDefaultValue($sportId);
+        $this['racePositionForm']['form']['discipline_id']->setDefaultValue($disciplineId);
     }
 
 }

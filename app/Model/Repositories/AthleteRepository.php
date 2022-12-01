@@ -37,6 +37,7 @@ class AthleteRepository extends BaseRepository
             ->setParameter('sport_id', $sportId)
             ->andWhere('e.gender = :gender_id')
             ->setParameter('gender_id', $genderId)
+            ->orderBy('e.firstname', 'ASC')
             ->getQuery()
             ->getResult();
     }
