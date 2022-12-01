@@ -8,8 +8,8 @@ services:
 	- App\AdminModule\Components\Forms\Athlete\AthleteFormFactory
 	- App\Model\Repositories\DisciplineRepository
 	- App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory
-	- App\Model\Repositories\RacePositionRepository
-	- App\AdminModule\Components\Forms\RacePosition\RacePositionFormFactory
+	- App\Model\Repositories\RacePointRepository
+	- App\AdminModule\Components\Forms\RacePoint\RacePointFormFactory
 	- App\Model\Repositories\ScheduleRepository
 	- App\AdminModule\Components\Forms\Schedule\ScheduleFormFactory
 	- App\Model\Repositories\RaceResultRepository

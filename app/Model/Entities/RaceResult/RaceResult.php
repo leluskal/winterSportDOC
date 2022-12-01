@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entities\RaceResult;
 
 use App\Model\Entities\Athlete\Athlete;
-use App\Model\Entities\RacePosition\RacePosition;
+use App\Model\Entities\RacePoint\RacePoint;
 use App\Model\Entities\Schedule\Schedule;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,15 +36,15 @@ class RaceResult
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Model\Entities\RacePosition\RacePosition", fetch="EAGER")
-     * @ORM\JoinColumn(name="race_position_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="race_point_id", referencedColumnName="id", nullable=false)
      */
-    private RacePosition $racePosition;
+    private RacePoint $racePoint;
 
-    public function __construct(Schedule $schedule, Athlete $athlete, RacePosition $racePosition)
+    public function __construct(Schedule $schedule, Athlete $athlete, RacePoint $racePoint)
     {
         $this->schedule = $schedule;
         $this->athlete = $athlete;
-        $this->racePosition = $racePosition;
+        $this->racePoint = $racePoint;
     }
 
     /**
@@ -88,18 +88,18 @@ class RaceResult
     }
 
     /**
-     * @return RacePosition
+     * @return RacePoint
      */
-    public function getRacePosition(): RacePosition
+    public function getRacePoint(): RacePoint
     {
-        return $this->racePosition;
+        return $this->racePoint;
     }
 
     /**
-     * @param RacePosition $racePosition
+     * @param RacePoint $racePoint
      */
-    public function setRacePosition(RacePosition $racePosition): void
+    public function setRacePoint(RacePoint $racePoint): void
     {
-        $this->racePosition = $racePosition;
+        $this->racePoint = $racePoint;
     }
 }

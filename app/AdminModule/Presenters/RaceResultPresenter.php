@@ -43,12 +43,12 @@ class RaceResultPresenter extends Presenter
         $raceResult = $this->raceResultRepository->getById($id);
         $schedule = $raceResult->getSchedule();
         $athlete = $raceResult->getAthlete();
-        $racePosition = $raceResult->getRacePosition();
+        $racePoint = $raceResult->getRacePoint();
 
         $this['raceResultForm']['form']['id']->setDefaultValue($raceResult->getId());
         $this['raceResultForm']['form']['schedule_id']->setDefaultValue($schedule->getId());
         $this['raceResultForm']['form']['athlete_id']->setDefaultValue($athlete->getId());
-        $this['raceResultForm']['form']['race_position_id']->setDefaultValue($racePosition->getId());
+        $this['raceResultForm']['form']['race_point_id']->setDefaultValue($racePoint->getId());
     }
 
     public function actionCreate(int $scheduleId)

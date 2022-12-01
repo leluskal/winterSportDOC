@@ -7,7 +7,7 @@ use App\Model\Entities\Gender\Gender;
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\GenderRepository;
-use App\Model\Repositories\RacePositionRepository;
+use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 use App\Model\Repositories\SportRepository;

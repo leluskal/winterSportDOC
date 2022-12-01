@@ -1,17 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Model\Entities\RacePosition;
+namespace App\Model\Entities\RacePoint;
 
 use App\Model\Entities\Discipline\Discipline;
-use App\Model\Entities\Sport\Sport;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- *@ORM\Table(name="race_position")
+ *@ORM\Table(name="race_point")
  */
-class RacePosition
+class RacePoint
 {
     /**
      * @var int
@@ -20,12 +19,6 @@ class RacePosition
      * @ORM\GeneratedValue
      */
     private int $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport")
-     * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=false)
-     */
-    private Sport $sport;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline")
@@ -44,14 +37,13 @@ class RacePosition
      * @var int
      * @ORM\Column(type="integer")
      */
-    private int $point;
+    private int $points;
 
-    public function __construct(Sport $sport, Discipline $discipline, int $position, int $point)
+    public function __construct(Discipline $discipline, int $position, int $points)
     {
-        $this->sport = $sport;
         $this->discipline = $discipline;
         $this->position = $position;
-        $this->point = $point;
+        $this->points = $points;
     }
 
     /**
@@ -60,22 +52,6 @@ class RacePosition
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Sport
-     */
-    public function getSport(): Sport
-    {
-        return $this->sport;
-    }
-
-    /**
-     * @param Sport $sport
-     */
-    public function setSport(Sport $sport): void
-    {
-        $this->sport = $sport;
     }
 
     /**
@@ -113,16 +89,16 @@ class RacePosition
     /**
      * @return int
      */
-    public function getPoint(): int
+    public function getPoints(): int
     {
-        return $this->point;
+        return $this->points;
     }
 
     /**
-     * @param int $point
+     * @param int $points
      */
-    public function setPoint(int $point): void
+    public function setPoints(int $points): void
     {
-        $this->point = $point;
+        $this->points = $points;
     }
 }

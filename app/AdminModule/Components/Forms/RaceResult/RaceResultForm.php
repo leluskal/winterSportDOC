@@ -7,7 +7,7 @@ use App\Model\Entities\RaceResult\RaceResult;
 use App\Model\Entities\Schedule\Schedule;
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RacePositionRepository;
+use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 use Nette\Application\UI\Control;
@@ -23,7 +23,7 @@ class RaceResultForm extends Control
 
     private AthleteRepository $athleteRepository;
 
-    private RacePositionRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     private RaceResultRepository $raceResultRepository;
 
@@ -34,16 +34,16 @@ class RaceResultForm extends Control
     private Schedule $schedule;
 
     public function __construct(
-        AthleteRepository $athleteRepository,
-        RacePositionRepository $racePositionRepository,
+        AthleteRepository    $athleteRepository,
+        RacePointRepository  $racePointRepository,
         RaceResultRepository $raceResultRepository,
-        ScheduleRepository $scheduleRepository,
+        ScheduleRepository   $scheduleRepository,
         DisciplineRepository $disciplineRepository,
-        Schedule $schedule
+        Schedule             $schedule
     )
     {
         $this->athleteRepository = $athleteRepository;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePointRepository = $racePointRepository;
         $this->raceResultRepository = $raceResultRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->disciplineRepository = $disciplineRepository;
@@ -68,10 +68,10 @@ class RaceResultForm extends Control
              ->setPrompt('--Choose athlete--')
              ->setRequired('The athlete is required');
 
-        $positionsArray = $this->racePositionRepository->findAllForSelectBoxBySportId($this->schedule->getSport()->getId());
-        $form->addSelect('race_position_id', 'Race Position', $positionsArray)
-             ->setPrompt('--Choose race position--')
-             ->setRequired('The race position is required');
+//        $positionsArray = $this->racePointRepository->findAllForSelectBoxBySportId($this->schedule->getSport()->getId());
+//        $form->addSelect('race_position_id', 'Race Position', $positionsArray)
+//             ->setPrompt('--Choose race position--')
+//             ->setRequired('The race position is required');
 
         $form->addSubmit('save', 'Save');
 
@@ -84,7 +84,7 @@ class RaceResultForm extends Control
     {
         $schedule = $this->scheduleRepository->getById((int) $values->schedule_id);
         $athlete = $this->athleteRepository->getById((int) $values->athlete_id);
-        $racePosition = $this->racePositionRepository->getById((int) $values->race_position_id);
+        $racePosition = $this->racePointRepository->getById((int) $values->race_position_id);
 
         if ($values->id === '') {
             $raceResult = new RaceResult(
@@ -102,7 +102,7 @@ class RaceResultForm extends Control
 
             $raceResult->setSchedule($schedule);
             $raceResult->setAthlete($athlete);
-            $raceResult->setRacePosition($racePosition);
+            $raceResult->setRacePoint($racePosition);
 
             $this->raceResultRepository->save($raceResult);
             $this->getPresenter()->flashMessage('The record is updated', 'info');

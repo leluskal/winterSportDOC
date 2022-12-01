@@ -2,7 +2,7 @@
 
 <h1 class="mt-4">{$discipline->getName()} - scoring</h1>
 <ol class="breadcrumb mb-4">
-    <a n:href="RacePosition:create, disciplineId => $discipline->getId()" class="btn btn-warning">Add</a>
+    <a n:href="RacePoint:create, disciplineId => $discipline->getId()" class="btn btn-warning">Add</a>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
@@ -18,12 +18,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                {foreach $racePositions as $racePosition}
+                {foreach $racePoints as $racePoint}
                     <tr>
-                        <td>{$racePosition->getPosition()}.</td>
-                        <td>{$racePosition->getPoint()} points</td>
+                        <td>{$racePoint->getPosition()}.</td>
+                        <td>{$racePoint->getPoints()} points</td>
                         <td>
-                            <a n:href="RacePosition:edit, id => $racePosition->getId()" class="btn btn-light">Edit</a>
+                            <a n:href="RacePoint:edit, id => $racePoint->getId()" class="btn btn-light">Edit</a>
 {*                            <a n:href="deleteRacePosition!, racePositionId => $racePosition->getId()" class="btn btn-light">Delete</a>*}
                         </td>
                     </tr>

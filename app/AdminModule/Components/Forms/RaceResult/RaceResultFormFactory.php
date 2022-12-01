@@ -5,7 +5,7 @@ namespace App\AdminModule\Components\Forms\RaceResult;
 
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RacePositionRepository;
+use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 
@@ -13,7 +13,7 @@ class RaceResultFormFactory
 {
     private AthleteRepository $athleteRepository;
 
-    private RacePositionRepository $racePositionRepository;
+    private RacePointRepository $racePositionRepository;
 
     private RaceResultRepository $raceResultRepository;
 
@@ -22,10 +22,10 @@ class RaceResultFormFactory
     private DisciplineRepository $disciplineRepository;
 
     public function __construct(
-        AthleteRepository $athleteRepository,
-        RacePositionRepository $racePositionRepository,
+        AthleteRepository    $athleteRepository,
+        RacePointRepository  $racePositionRepository,
         RaceResultRepository $raceResultRepository,
-        ScheduleRepository $scheduleRepository,
+        ScheduleRepository   $scheduleRepository,
         DisciplineRepository $disciplineRepository
     )
     {

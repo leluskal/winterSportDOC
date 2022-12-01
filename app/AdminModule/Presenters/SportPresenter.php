@@ -6,7 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Sport\SportForm;
 use App\AdminModule\Components\Forms\Sport\SportFormFactory;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RacePositionRepository;
+use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\ScheduleRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Presenter;
@@ -17,23 +17,23 @@ class SportPresenter extends Presenter
 
     private SportFormFactory $sportFormFactory;
 
-    private RacePositionRepository $racePositionRepository;
+    private RacePointRepository $racePositionRepository;
 
     private DisciplineRepository $disciplineRepository;
 
     private ScheduleRepository $scheduleRepository;
 
     public function __construct(
-        SportRepository $sportRepository,
-        SportFormFactory $sportFormFactory,
-        RacePositionRepository $racePositionRepository,
+        SportRepository      $sportRepository,
+        SportFormFactory     $sportFormFactory,
+        RacePointRepository  $racePointRepository,
         DisciplineRepository $disciplineRepository,
-        ScheduleRepository $scheduleRepository
+        ScheduleRepository   $scheduleRepository
     )
     {
         $this->sportRepository = $sportRepository;
         $this->sportFormFactory = $sportFormFactory;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePositionRepository = $racePointRepository;
         $this->disciplineRepository = $disciplineRepository;
         $this->scheduleRepository = $scheduleRepository;
     }
@@ -70,12 +70,6 @@ class SportPresenter extends Presenter
     public function renderCreate()
     {
 
-    }
-
-    public function renderScoring(int $sportId)
-    {
-        $this->template->sport = $this->sportRepository->getById($sportId);
-        $this->template->racePositions = $this->racePositionRepository->findAllBySportId($sportId);
     }
 
     public function handleDeleteRacePosition(int $racePositionId)

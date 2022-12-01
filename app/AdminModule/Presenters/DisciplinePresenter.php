@@ -6,7 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RacePositionRepository;
+use App\Model\Repositories\RacePointRepository;
 use Nette\Application\UI\Presenter;
 
 class DisciplinePresenter extends Presenter
@@ -15,17 +15,17 @@ class DisciplinePresenter extends Presenter
 
     private DisciplineFormFactory $disciplineFormFactory;
 
-    private RacePositionRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     public function __construct(
         DisciplineRepository $disciplineRepository,
         DisciplineFormFactory $disciplineFormFactory,
-        RacePositionRepository $racePositionRepository
+        RacePointRepository $racePointRepository
     )
     {
         $this->disciplineRepository = $disciplineRepository;
         $this->disciplineFormFactory = $disciplineFormFactory;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePointRepository = $racePointRepository;
     }
 
     public function createComponentDisciplineForm(): DisciplineForm
@@ -62,7 +62,7 @@ class DisciplinePresenter extends Presenter
     public function renderScoring(int $disciplineId)
     {
         $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-        $this->template->racePositions = $this->racePositionRepository->findAllByDisciplineId($disciplineId);
+        $this->template->racePoints = $this->racePointRepository->findAllByDisciplineId($disciplineId);
     }
 
 }

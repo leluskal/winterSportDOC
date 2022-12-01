@@ -1,18 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace App\AdminModule\Components\Forms\RacePosition;
+namespace App\AdminModule\Components\Forms\RacePoint;
 
-use App\Model\Entities\RacePosition\RacePosition;
+use App\Model\Entities\RacePoint\RacePoint;
 use App\Model\Repositories\DisciplineRepository;
-use App\Model\Repositories\RacePositionRepository;
-use App\Model\Repositories\SportRepository;
+use App\Model\Repositories\RacePointRepository;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
 
-class RacePositionForm extends Control
+class RacePointForm extends Control
 {
     use SmartObject;
 
@@ -20,23 +19,19 @@ class RacePositionForm extends Control
 
     public array $onDelete;
 
-    private int $sportId;
-
-    private SportRepository $sportRepository;
+    private int $disciplineId;
 
     private DisciplineRepository $disciplineRepository;
 
-    private RacePositionRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     public function __construct(
-        SportRepository $sportRepository,
         DisciplineRepository $disciplineRepository,
-        RacePositionRepository $racePositionRepository
+        RacePointRepository $racePointRepository
     )
     {
-        $this->sportRepository = $sportRepository;
         $this->disciplineRepository = $disciplineRepository;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePointRepository = $racePointRepository;
     }
 
     public function createComponentForm(): Form
@@ -45,17 +40,14 @@ class RacePositionForm extends Control
 
         $form->addHidden('id');
 
-        $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
-             ->setRequired('The sport is required');
-
-        $form->addSelect('discipline_id', 'Discipline', $this->disciplineRepository->findAllForSelectBox((int) $this->sportId))
+        $form->addSelect('discipline_id', 'Discipline', $this->disciplineRepository->findAllForSelectBox())
              ->setPrompt('--Choose discipline--')
              ->setRequired('The discipline is required');
 
         $form->addInteger('position', 'Position')
              ->setRequired('The position is required');
 
-        $form->addInteger('point', 'Points')
+        $form->addInteger('points', 'Points')
              ->setRequired('The point is required');
 
         $form->addSubmit('save', 'Save');
@@ -67,33 +59,33 @@ class RacePositionForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
-        $sport = $this->sportRepository->getById((int) $values->sport_id);
         $discipline = $this->disciplineRepository->getById((int) $values->discipline_id);
 
         if ($values->id === '') {
-            $racePosition = new RacePosition(
-                $sport,
+            $racePoint = new RacePoint(
                 $discipline,
                 $values->position,
-                $values->point
+                $values->points
             );
 
-            $this->racePositionRepository->save($racePosition);
+            $this->racePointRepository->save($racePoint);
             $this->getPresenter()->flashMessage('The new record is saved', 'success');
         }
 
         if ($values->id !== '') {
-            $racePosition = $this->racePositionRepository->getById((int) $values->id);
 
-            $racePosition->setSport($sport);
-            $racePosition->setDiscipline($discipline);
-            $racePosition->setPosition($values->position);
-            $racePosition->setPoint($values->point);
+            $racePoint = $this->racePointRepository->getById((int) $values->id);
+
+            $racePoint->setDiscipline($discipline);
+            $racePoint->setPosition($values->position);
+            $racePoint->setPoints($values->points);
+
+            $this->racePointRepository->save($racePoint);
 
             $this->getPresenter()->flashMessage('The record is updated', 'info');
         }
 
-        $this->sportId = $values->sport_id;
+        $this->disciplineId = $values->discipline_id;
 
         $this->onFinish($this);
     }
@@ -101,12 +93,12 @@ class RacePositionForm extends Control
     public function render()
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ .'/racePositionForm.latte');
+        $template->setFile(__DIR__ .'/racePointForm.latte');
         $template->render();
     }
 
-    public function getSportId(): int
+    public function getDisciplineId(): int
     {
-        return $this->sportId;
+        return $this->disciplineId;
     }
 }
