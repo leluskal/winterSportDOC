@@ -13,7 +13,7 @@ class RaceResultFormFactory
 {
     private AthleteRepository $athleteRepository;
 
-    private RacePointRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     private RaceResultRepository $raceResultRepository;
 
@@ -23,14 +23,14 @@ class RaceResultFormFactory
 
     public function __construct(
         AthleteRepository    $athleteRepository,
-        RacePointRepository  $racePositionRepository,
+        RacePointRepository  $racePointRepository,
         RaceResultRepository $raceResultRepository,
         ScheduleRepository   $scheduleRepository,
         DisciplineRepository $disciplineRepository
     )
     {
         $this->athleteRepository = $athleteRepository;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePointRepository = $racePointRepository;
         $this->raceResultRepository = $raceResultRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->disciplineRepository = $disciplineRepository;
@@ -42,7 +42,7 @@ class RaceResultFormFactory
 
         return new RaceResultForm(
             $this->athleteRepository,
-            $this->racePositionRepository,
+            $this->racePointRepository,
             $this->raceResultRepository,
             $this->scheduleRepository,
             $this->disciplineRepository,

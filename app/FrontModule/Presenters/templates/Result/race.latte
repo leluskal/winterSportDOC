@@ -1,0 +1,19 @@
+{block content}
+
+<div class="race-class">
+    <h1>
+        {$disciplineGender->getDiscipline()->getName()}
+        ({$disciplineGender->getGender()->getName()})
+    </h1>
+    <table class="table-race">
+    {foreach $schedules as $schedule}
+        <tr>
+            <td><b>{$schedule->getEventDate()->format('d.m.Y H:i')}</b></td>
+            <td>{$schedule->getEventPlace()}</td>
+            <td class="category-button">
+                <a n:href="Result:raceResult, scheduleId => $schedule->getId()">Results</a>
+            </td>
+        </tr>
+    {/foreach}
+    </table>
+</div>

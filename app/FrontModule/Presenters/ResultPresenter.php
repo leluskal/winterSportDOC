@@ -5,6 +5,7 @@ namespace App\FrontModule\Presenters;
 
 use App\Model\Entities\Gender\Gender;
 use App\Model\Repositories\AthleteRepository;
+use App\Model\Repositories\DisciplineGenderRepository;
 use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\GenderRepository;
 use App\Model\Repositories\RacePointRepository;
@@ -25,12 +26,15 @@ class ResultPresenter extends Presenter
 
     private ScheduleRepository $scheduleRepository;
 
+    private DisciplineGenderRepository $disciplineGenderRepository;
+
     public function __construct(
         SportRepository $sportRepository,
         DisciplineRepository $disciplineRepository,
         GenderRepository $genderRepository,
         RaceResultRepository $raceResultRepository,
-        ScheduleRepository $scheduleRepository
+        ScheduleRepository $scheduleRepository,
+        DisciplineGenderRepository $disciplineGenderRepository
     )
     {
         $this->sportRepository = $sportRepository;
@@ -38,17 +42,18 @@ class ResultPresenter extends Presenter
         $this->genderRepository = $genderRepository;
         $this->raceResultRepository = $raceResultRepository;
         $this->scheduleRepository = $scheduleRepository;
+        $this->disciplineGenderRepository = $disciplineGenderRepository;
     }
 
-    public function renderDefault(int $sportId = null, int $genderId = null, int $disciplineId = null, string $type = null)
+    public function renderDefault(int $sportId = null, int $genderId = null, int $disciplineId = null, int $disciplineGenderId = null, bool $overallStandings = false)
     {
-        $disciplines = $this->disciplineRepository->findAllBySportIdAndGenderId((int) $sportId, (int) $genderId);
+        $disciplineGenders = $this->disciplineGenderRepository->findAllBySportIdAndGenderId((int) $sportId, (int) $genderId);
 
         $this->template->sport = null;
         $this->template->gender = null;
 
         if ($sportId !== null) {
-            $this->template->disciplines = $disciplines;
+            $this->template->disciplineGenders = $disciplineGenders;
             $this->template->sport = $this->sportRepository->getById($sportId);
         }
 
@@ -57,20 +62,30 @@ class ResultPresenter extends Presenter
 
         $this->template->genders = $this->genderRepository->findAll();
         $this->template->genderId = $genderId;
-
-        $this->template->totalResults = $this->raceResultRepository->getTotalResultsBySportIdAndGenderId((int) $sportId,  (int) $genderId);
-
-        $this->template->totalResultsByDiscipline = $this->raceResultRepository->getTotalResultsByDisciplineId((int) $disciplineId, (int) $genderId);
-
         $this->template->gender = $this->genderRepository->getById((int) $genderId);
 
-        $this->template->disciplineId = $disciplineId;
-        $this->template->discipline = $this->disciplineRepository->getById((int) $disciplineId);
+        $this->template->totalResults = $this->raceResultRepository->getTotalResultsBySportIdAndGenderId((int) $sportId,  (int) $genderId);
+        $this->template->totalResultsByDiscipline = $this->raceResultRepository->getTotalResultsByDisciplineIdAndGenderId((int) $disciplineId, (int) $genderId);
+
+        $this->template->disciplineGenderId = $disciplineGenderId;
+        $this->template->disciplineGender = $this->disciplineGenderRepository->getById((int) $disciplineGenderId);
+
+        $this->template->overallStandings = $overallStandings;
      }
 
-     public function renderFinishedRace(int $disciplineId)
+     public function renderRace(int $disciplineGenderId)
      {
-         $this->template->discipline = $this->disciplineRepository->getById($disciplineId);
-         $this->template->schedules = $this->scheduleRepository->findAllByDisciplineId($disciplineId);
+         $disciplineGender = $this->disciplineGenderRepository->getById($disciplineGenderId);
+         $this->template->disciplineGender = $disciplineGender;
+
+         $disciplineId = $disciplineGender->getDiscipline()->getId();
+         $genderId = $disciplineGender->getGender()->getId();
+         $this->template->schedules = $this->scheduleRepository->findAllByDisciplineIdAndGenderId($disciplineId, $genderId);
+     }
+
+     public function renderRaceResult(int $scheduleId)
+     {
+        $this->template->schedule = $this->scheduleRepository->getById($scheduleId);
+        $this->template->raceResults = $this->raceResultRepository->findAllByScheduleId($scheduleId);
      }
 }

@@ -17,7 +17,7 @@ class SportPresenter extends Presenter
 
     private SportFormFactory $sportFormFactory;
 
-    private RacePointRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     private DisciplineRepository $disciplineRepository;
 
@@ -33,7 +33,7 @@ class SportPresenter extends Presenter
     {
         $this->sportRepository = $sportRepository;
         $this->sportFormFactory = $sportFormFactory;
-        $this->racePositionRepository = $racePointRepository;
+        $this->racePointRepository = $racePointRepository;
         $this->disciplineRepository = $disciplineRepository;
         $this->scheduleRepository = $scheduleRepository;
     }
@@ -72,14 +72,14 @@ class SportPresenter extends Presenter
 
     }
 
-    public function handleDeleteRacePosition(int $racePositionId)
-    {
-        $racePosition = $this->racePositionRepository->getById($racePositionId);
-
-        $this->racePositionRepository->delete($racePosition);
-        $this->flashMessage('The record is deleted', 'info');
-        $this->redirect('Sport:scoring', $racePosition->getSport()->getId());
-    }
+//    public function handleDeleteRacePosition(int $racePositionId)
+//    {
+//        $racePosition = $this->racePointRepository->getById($racePositionId);
+//
+//        $this->racePointRepository->delete($racePosition);
+//        $this->flashMessage('The record is deleted', 'info');
+//        $this->redirect('Sport:scoring', $racePosition->getSport()->getId());
+//    }
 
     public function renderDiscipline(int $sportId)
     {

@@ -62,16 +62,16 @@ class RaceResultForm extends Control
 
         $athletesArray = $this->athleteRepository->findAllForSelectBoxBySportIdAndGenderId(
             $this->schedule->getSport()->getId(),
-            $this->schedule->getDiscipline()->getGender()->getId()
+            $this->schedule->getDisciplineGender()->getGender()->getId()
         );
         $form->addSelect('athlete_id', 'Athlete', $athletesArray)
              ->setPrompt('--Choose athlete--')
              ->setRequired('The athlete is required');
 
-//        $positionsArray = $this->racePointRepository->findAllForSelectBoxBySportId($this->schedule->getSport()->getId());
-//        $form->addSelect('race_position_id', 'Race Position', $positionsArray)
-//             ->setPrompt('--Choose race position--')
-//             ->setRequired('The race position is required');
+        $positionsArray = $this->racePointRepository->findAllForSelectBoxByDisciplineId($this->schedule->getDisciplineGender()->getDiscipline()->getId());
+        $form->addSelect('race_point_id', 'Race Position', $positionsArray)
+             ->setPrompt('--Choose race position--')
+             ->setRequired('The race position is required');
 
         $form->addSubmit('save', 'Save');
 
@@ -84,13 +84,13 @@ class RaceResultForm extends Control
     {
         $schedule = $this->scheduleRepository->getById((int) $values->schedule_id);
         $athlete = $this->athleteRepository->getById((int) $values->athlete_id);
-        $racePosition = $this->racePointRepository->getById((int) $values->race_position_id);
+        $racePoint = $this->racePointRepository->getById((int) $values->race_point_id);
 
         if ($values->id === '') {
             $raceResult = new RaceResult(
                 $schedule,
                 $athlete,
-                $racePosition
+                $racePoint
             );
 
             $this->raceResultRepository->save($raceResult);
@@ -102,7 +102,7 @@ class RaceResultForm extends Control
 
             $raceResult->setSchedule($schedule);
             $raceResult->setAthlete($athlete);
-            $raceResult->setRacePoint($racePosition);
+            $raceResult->setRacePoint($racePoint);
 
             $this->raceResultRepository->save($raceResult);
             $this->getPresenter()->flashMessage('The record is updated', 'info');

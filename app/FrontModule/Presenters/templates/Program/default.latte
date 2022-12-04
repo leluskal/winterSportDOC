@@ -16,14 +16,14 @@
                     </td>
                     <td>
                         <a n:href=":Admin:Schedule:edit, sportId => $schedule->getSport()->getId(), id => $schedule->getId()">
-                            {$schedule->getDiscipline()->getSport()->getName()} -
+                            {$schedule->getDisciplineGender()->getDiscipline()->getSport()->getName()} -
                         </a>
-                        {$schedule->getDiscipline()->getName()}
-                        ({$schedule->getDiscipline()->getGender()->getName()})
+                        {$schedule->getDisciplineGender()->getDiscipline()->getName()}
+                        ({$schedule->getDisciplineGender()->getGender()->getName()})
                     </td>
                     <td>
-                        {if $schedule->isSeen() === 0}
-                            <i class="fas fa-eye"></i>
+                        {if $actualDateTime > $schedule->getEventDate()}
+                            <i class="fas fa-check-square"></i>
                         {/if}
                     </td>
                 </tr>

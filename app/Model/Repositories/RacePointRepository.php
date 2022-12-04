@@ -38,4 +38,51 @@ class RacePointRepository extends BaseRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllForSelectBoxByDisciplineId(int $disciplineId): array
+    {
+        $racePoints = $this->findAllByDisciplineId($disciplineId);
+
+        $returnArray = [];
+
+        foreach ($racePoints as $racePoint) {
+            $racePointId = $racePoint->getId();
+            $point = $racePoint->getPosition() . '. (' . $racePoint->getPoints() . ' points)';
+            $returnArray[$racePointId] = $point;
+        }
+
+        return $returnArray;
+    }
+
+    /**
+     * @param int $sportId
+     * @return RacePoint[]
+     */
+    public function findAllBySportId(int $sportId): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->leftJoin('e.discipline', 'd')
+            ->leftJoin('d.sport', 's')
+            ->where('s.id = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllForSelectBoxBySportId(int $sportId): array
+    {
+        $racePoints = $this->findAllBySportId($sportId);
+
+        $returnArray = [];
+
+        foreach ($racePoints as $racePoint) {
+            $racePointId = $racePoint->getId();
+            $point = $racePoint->getPosition() . '. (' . $racePoint->getPoints() . ' points)';
+            $returnArray[$racePointId] = $point;
+        }
+
+        return $returnArray;
+    }
 }

@@ -28,7 +28,7 @@ class DisciplineGender
     private Discipline $discipline;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Gender\Gender")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Gender\Gender", fetch="EAGER")
      * @ORM\JoinColumn(name="gender_id", referencedColumnName="id", nullable=false)
      */
     private Gender $gender;

@@ -5,7 +5,7 @@ namespace App\AdminModule\Components\Forms\Schedule;
 
 use App\Model\Entities\Schedule\Schedule;
 use App\Model\Entities\Sport\Sport;
-use App\Model\Repositories\DisciplineRepository;
+use App\Model\Repositories\DisciplineGenderRepository;
 use App\Model\Repositories\ScheduleRepository;
 use App\Model\Repositories\SportRepository;
 use DateTime;
@@ -24,18 +24,18 @@ class ScheduleForm extends Control
 
     private SportRepository $sportRepository;
 
-    private DisciplineRepository $disciplineRepository;
+    private DisciplineGenderRepository $disciplineGenderRepository;
 
     private ScheduleRepository $scheduleRepository;
 
     public function __construct(
         SportRepository $sportRepository,
-        DisciplineRepository $disciplineRepository,
+        DisciplineGenderRepository $disciplineGenderRepository,
         ScheduleRepository $scheduleRepository
     )
     {
         $this->sportRepository = $sportRepository;
-        $this->disciplineRepository = $disciplineRepository;
+        $this->disciplineGenderRepository = $disciplineGenderRepository;
         $this->scheduleRepository = $scheduleRepository;
     }
 
@@ -53,7 +53,7 @@ class ScheduleForm extends Control
         $form->addSelect('sport_id', 'Sport', $this->sportRepository->findAllForSelectBox())
              ->setRequired('The sport is required');
 
-        $form->addSelect('discipline_id', 'Sport Discipline', $this->disciplineRepository->findAllForSelectBoxBySportId($this->sportId))
+        $form->addSelect('discipline_gender_id', 'Discipline', $this->disciplineGenderRepository->findAllForSelectBoxBySportId($this->sportId))
              ->setPrompt('--Choose discipline--')
              ->setRequired('The discipline is required');
 
@@ -76,12 +76,12 @@ class ScheduleForm extends Control
     public function formSuccess(Form $form, ArrayHash $values)
     {
         $sport = $this->sportRepository->getById((int) $values->sport_id);
-        $discipline = $this->disciplineRepository->getById((int) $values->discipline_id);
+        $disciplineGender = $this->disciplineGenderRepository->getById((int) $values->discipline_gender_id);
 
         if ($values->id === '') {
             $schedule = new Schedule(
                 $sport,
-                $discipline,
+                $disciplineGender,
                 DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date),
                 $values->event_place,
                 $values->seen
@@ -95,7 +95,7 @@ class ScheduleForm extends Control
             $schedule = $this->scheduleRepository->getById((int) $values->id);
 
             $schedule->setSport($sport);
-            $schedule->setDiscipline($discipline);
+            $schedule->setDisciplineGender($disciplineGender);
             $schedule->setEventDate(DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date));
             $schedule->setEventPlace($values->event_place);
             $schedule->setSeen($values->seen);

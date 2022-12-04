@@ -45,11 +45,11 @@ class SchedulePresenter extends Presenter
     {
         $schedule = $this->scheduleRepository->getById($id);
         $sport = $schedule->getSport();
-        $discipline = $schedule->getDiscipline();
+        $disciplineGender = $schedule->getDisciplineGender();
 
         $this['scheduleForm']['form']['id']->setDefaultValue($schedule->getId());
         $this['scheduleForm']['form']['sport_id']->setDefaultValue($sport->getId());
-        $this['scheduleForm']['form']['discipline_id']->setDefaultValue($discipline->getId());
+        $this['scheduleForm']['form']['discipline_gender_id']->setDefaultValue($disciplineGender->getId());
         $this['scheduleForm']['form']['event_date']->setDefaultValue($schedule->getEventDate()->format('Y-m-d\TH:i'));
         $this['scheduleForm']['form']['event_place']->setDefaultValue($schedule->getEventPlace());
         $this['scheduleForm']['form']['seen']->setDefaultValue($schedule->isSeen());

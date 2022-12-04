@@ -37,8 +37,8 @@ class ScheduleRepository extends BaseRepository
 
         foreach ($schedules as $schedule) {
             $scheduleId = $schedule->getId();
-            $schedule = $schedule->getDiscipline()->getName() . ' - ' .
-                        $schedule->getDiscipline()->getGender()->getName() .' - ' .
+            $schedule = $schedule->getDisciplineGender()->getName() . ' - ' .
+                        $schedule->getDisciplineGender()->getGender()->getName() .' - ' .
                         $schedule->getEventDate()->format('d.m.Y H:i') . ' - ' .
                         $schedule->getEventPlace();
 
@@ -86,7 +86,7 @@ class ScheduleRepository extends BaseRepository
 
         foreach ($schedules as $schedule) {
             $scheduleId = $schedule->getId();
-            $schedule = $schedule->getDiscipline()->getName() . '(' . $schedule->getDiscipline()->getGender()->getName() . ')';
+            $schedule = $schedule->getDisciplineGender()->getDiscipline()->getName() . '(' . $schedule->getDisciplineGender()->getGender()->getName() . ')';
             $returnArray[$scheduleId] = $schedule;
         }
 
@@ -97,13 +97,16 @@ class ScheduleRepository extends BaseRepository
      * @param int $disciplineId
      * @return Schedule[]
      */
-    public function findAllByDisciplineId(int $disciplineId): array
+    public function findAllByDisciplineIdAndGenderId(int $disciplineId, int $genderId): array
     {
         return $this->em->createQueryBuilder()
             ->select('e')
             ->from($this->entityName, 'e')
-            ->where('e.discipline = :discipline_id')
+            ->leftJoin('e.disciplineGender', 'dg')
+            ->where('dg.discipline = :discipline_id')
             ->setParameter('discipline_id', $disciplineId)
+            ->andWhere('dg.gender = :gender_id')
+            ->setParameter('gender_id', $genderId)
             ->orderBy('e.eventDate', 'ASC')
             ->getQuery()
             ->getResult();

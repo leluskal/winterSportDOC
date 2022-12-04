@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entities\Schedule;
 
-use App\Model\Entities\Discipline\Discipline;
+use App\Model\Entities\DisciplineGender\DisciplineGender;
 use App\Model\Entities\Sport\Sport;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,10 +29,10 @@ class Schedule
     private Sport $sport;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Discipline\Discipline", fetch="EAGER")
-     * @ORM\JoinColumn(name="discipline_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\DisciplineGender\DisciplineGender", fetch="EAGER")
+     * @ORM\JoinColumn(name="discipline_gender_id", referencedColumnName="id", nullable=false)
      */
-    private Discipline $discipline;
+    private DisciplineGender $disciplineGender;
 
     /**
      * @var DateTime
@@ -52,10 +52,10 @@ class Schedule
      */
     private bool $seen;
 
-    public function __construct(Sport $sport, Discipline $discipline, DateTime $eventDate, string $eventPlace, bool $seen)
+    public function __construct(Sport $sport, DisciplineGender $disciplineGender, DateTime $eventDate, string $eventPlace, bool $seen)
     {
         $this->sport = $sport;
-        $this->discipline = $discipline;
+        $this->disciplineGender = $disciplineGender;
         $this->eventDate = $eventDate;
         $this->eventPlace = $eventPlace;
         $this->seen = $seen;
@@ -86,19 +86,19 @@ class Schedule
     }
 
     /**
-     * @return Discipline
+     * @return DisciplineGender
      */
-    public function getDiscipline(): Discipline
+    public function getDisciplineGender(): DisciplineGender
     {
-        return $this->discipline;
+        return $this->disciplineGender;
     }
 
     /**
-     * @param Discipline $discipline
+     * @param DisciplineGender $disciplineGender
      */
-    public function setDiscipline(Discipline $discipline): void
+    public function setDisciplineGender(DisciplineGender $disciplineGender): void
     {
-        $this->discipline = $discipline;
+        $this->disciplineGender = $disciplineGender;
     }
 
     /**

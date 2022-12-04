@@ -20,13 +20,14 @@
                 </tr>
                 </thead>
                 <tbody>
+                {dump $schedules}
                 {foreach $schedules as $schedule}
                     <tr>
                         <td>{$schedule->getEventDate()->format('d.m.Y H:i')}</td>
                         <td>{$schedule->getEventPlace()}</td>
                         <td>
-                            {$schedule->getDiscipline()->getName()}
-                            ({$schedule->getDiscipline()->getGender()->getName()})
+                            {$schedule->getDisciplineGender()->getDiscipline()->getName()}
+                            ({$schedule->getDisciplineGender()->getGender()->getName()})
                         </td>
                         <td>
                             <div class="part-icon-block">

@@ -15,12 +15,12 @@ class RacePointPresenter extends Presenter
     private RacePointFormFactory $racePointFormFactory;
 
     public function __construct(
-        RacePointRepository     $racePositionRepository,
-        RacePointFormFactory $racePositionFormFactory
+        RacePointRepository  $racePointRepository,
+        RacePointFormFactory $racePointFormFactory
     )
     {
-        $this->racePointRepository = $racePositionRepository;
-        $this->racePointFormFactory = $racePositionFormFactory;
+        $this->racePointRepository = $racePointRepository;
+        $this->racePointFormFactory = $racePointFormFactory;
     }
 
     public function createComponentRacePointForm(): RacePointForm

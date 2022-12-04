@@ -3,8 +3,8 @@
 <h1 class="mt-4">
     {$schedule->getEventDate()->format('d.m.Y')}
     {$schedule->getEventPlace()} -
-    {$schedule->getDiscipline()->getName()}
-    ({$schedule->getDiscipline()->getGender()->getName()}):
+    {$schedule->getDisciplineGender()->getDiscipline()->getName()}
+    ({$schedule->getDisciplineGender()->getGender()->getName()}):
      results
 </h1>
 <ol class="breadcrumb mb-4">
@@ -28,14 +28,14 @@
                 {foreach $raceResults as $raceResult}
                     <tr>
                         <td>
-                            {$raceResult->getRacePosition()->getPosition()}.
+                            {$raceResult->getRacePoint()->getPosition()}.
                         </td>
                         <td>
                             {$raceResult->getAthlete()->getFirstname()}
                             {$raceResult->getAthlete()->getLastname()}
                         </td>
                         <td>
-                            {$raceResult->getRacePosition()->getPoint()}
+                            {$raceResult->getRacePoint()->getPoints()}
                         </td>
                         <td>
                             <a n:href="RaceResult:edit, id => $raceResult->getId(), scheduleId => $raceResult->getSchedule()->getId()," class="btn btn-light">Edit</a>

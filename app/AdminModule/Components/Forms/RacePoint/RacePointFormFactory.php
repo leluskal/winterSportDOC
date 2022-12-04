@@ -8,23 +8,22 @@ use App\Model\Repositories\RacePointRepository;
 
 class RacePointFormFactory
 {
-
     private DisciplineRepository $disciplineRepository;
 
-    private RacePointRepository $racePositionRepository;
+    private RacePointRepository $racePointRepository;
 
     public function __construct(
         DisciplineRepository $disciplineRepository,
-        RacePointRepository $racePositionRepository
+        RacePointRepository $racePointRepository
     )
     {
         $this->disciplineRepository = $disciplineRepository;
-        $this->racePositionRepository = $racePositionRepository;
+        $this->racePointRepository = $racePointRepository;
     }
 
     public function create(): RacePointForm
     {
-        return new RacePointForm($this->disciplineRepository, $this->racePositionRepository);
+        return new RacePointForm($this->disciplineRepository, $this->racePointRepository);
     }
 
 }

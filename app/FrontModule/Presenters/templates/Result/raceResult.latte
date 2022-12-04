@@ -1,0 +1,25 @@
+{block content}
+
+<div class="race-class">
+    <h1>
+        {$schedule->getEventDate()->format('d.m.Y H:i')}
+        {$schedule->getEventPlace()}
+    </h1>
+    <br>
+    <table class="table-position">
+        {foreach $raceResults as $raceResult}
+            <tr>
+                <td>{$iterator->counter}.</td>
+                <td>
+                    {$raceResult->getAthlete()->getFirstname()}
+                    {$raceResult->getAthlete()->getLastname()}
+                </td>
+                {if $raceResult->getRacePoint()->getPoints() > 1}
+                    <td>{$raceResult->getRacePoint()->getPoints()} points</td>
+                {else}
+                    <td>{$raceResult->getRacePoint()->getPoints()} point</td>
+                {/if}
+            </tr>
+        {/foreach}
+    </table>
+</div>
