@@ -1,6 +1,8 @@
 {block content}
 
 <div class="program-class">
+    <h1>Program ({$year})</h1>
+    <br>
     {var $actualDateTime = new \DateTime('now')}
     <table class="table-program">
         {foreach $schedulesGroupedByDate as $date => $schedulesArray}

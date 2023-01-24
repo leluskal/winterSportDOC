@@ -48,9 +48,26 @@ class ScheduleRepository extends BaseRepository
         return $returnArray;
     }
 
-    public function findAllGroupedByDate(): array
+    /**
+     * @param int $year
+     * @return Schedule[]
+     */
+    public function findAllByYear(int $year): array
     {
-        $schedules = $this->findAll();
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.year = :year')
+            ->setParameter('year', $year)
+            ->orderBy('e.eventDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findAllGroupedByDate(int $year): array
+    {
+        $schedules = $this->findAllByYear($year);
 
         $returnArray = [];
 

@@ -18,6 +18,8 @@ class ProgramPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->schedulesGroupedByDate = $this->scheduleRepository->findAllGroupedByDate();
+        $this->template->schedulesGroupedByDate = $this->scheduleRepository->findAllGroupedByDate((int) $this->year);
+
+        $this->template->year = $this->year;
     }
 }
