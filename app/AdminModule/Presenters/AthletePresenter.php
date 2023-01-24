@@ -8,9 +8,10 @@ use App\AdminModule\Components\Forms\Athlete\AthleteFormFactory;
 use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\GenderRepository;
 use App\Model\Repositories\SportRepository;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Presenter;
 
-class AthletePresenter extends Presenter
+class AthletePresenter extends BasePresenter
 {
     private AthleteRepository $athleteRepository;
 

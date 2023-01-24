@@ -3,18 +3,15 @@ declare(strict_types=1);
 
 namespace App\FrontModule\Presenters;
 
-use App\Model\Entities\Gender\Gender;
-use App\Model\Repositories\AthleteRepository;
 use App\Model\Repositories\DisciplineGenderRepository;
 use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\GenderRepository;
-use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
 use App\Model\Repositories\SportRepository;
-use Nette\Application\UI\Presenter;
+use App\Presenters\BasePresenter;
 
-class ResultPresenter extends Presenter
+class ResultPresenter extends BasePresenter
 {
     private SportRepository $sportRepository;
 

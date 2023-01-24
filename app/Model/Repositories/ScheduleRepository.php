@@ -78,6 +78,26 @@ class ScheduleRepository extends BaseRepository
             ->getResult();
     }
 
+    /**
+     * @param int $sportId
+     * @param int $year
+     * @return Schedule[]
+     */
+    public function findAllBySportIdAndYear(int $sportId, int $year): array
+    {
+        return $this->em->createQueryBuilder()
+            ->select('e')
+            ->from($this->entityName, 'e')
+            ->where('e.sport = :sport_id')
+            ->setParameter('sport_id', $sportId)
+            ->andWhere('e.year = :year')
+            ->setParameter('year', $year)
+            ->orderBy('e.eventDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function findAllForSelectBoxBySportId(int $sportId): array
     {
         $schedules = $this->findAllBySportId($sportId);

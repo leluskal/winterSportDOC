@@ -8,8 +8,5 @@ use App\Presenters\BasePresenter;
 class HomepagePresenter extends BasePresenter
 {
 
-    public function renderDefault()
-    {
 
-    }
 }

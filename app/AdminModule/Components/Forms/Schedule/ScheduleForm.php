@@ -66,6 +66,8 @@ class ScheduleForm extends Control
         $form->addText('event_place', 'Event Place')
              ->setRequired('The event place is required');
 
+        $form->addHidden('year');
+
         $form->addSubmit('save', 'Save');
 
         $form->addSubmit('delete', 'Delete')
@@ -88,12 +90,15 @@ class ScheduleForm extends Control
         $sport = $this->sportRepository->getById((int) $values->sport_id);
         $disciplineGender = $this->disciplineGenderRepository->getById((int) $values->discipline_gender_id);
 
+        bdump($values->year);
+
         if ($values->id === '') {
             $schedule = new Schedule(
                 $sport,
                 $disciplineGender,
                 DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date),
                 $values->event_place,
+                (int) $values->year
             );
 
             $this->scheduleRepository->save($schedule);
@@ -107,6 +112,7 @@ class ScheduleForm extends Control
             $schedule->setDisciplineGender($disciplineGender);
             $schedule->setEventDate(DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date));
             $schedule->setEventPlace($values->event_place);
+            $schedule->setYear((int) $values->year);
 
             $this->scheduleRepository->save($schedule);
             $this->getPresenter()->flashMessage('The schedule record is updated', 'info');

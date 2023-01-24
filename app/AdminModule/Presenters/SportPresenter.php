@@ -9,9 +9,10 @@ use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\RacePointRepository;
 use App\Model\Repositories\ScheduleRepository;
 use App\Model\Repositories\SportRepository;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Presenter;
 
-class SportPresenter extends Presenter
+class SportPresenter extends BasePresenter
 {
     private SportRepository $sportRepository;
 
@@ -81,7 +82,9 @@ class SportPresenter extends Presenter
     public function renderSchedule(int $sportId)
     {
         $this->template->sport = $this->sportRepository->getById($sportId);
-        $this->template->schedules = $this->scheduleRepository->findAllBySportId($sportId);
+        $this->template->schedules = $this->scheduleRepository->findAllBySportIdAndYear($sportId, (int) $this->year);
+
+        $this->template->year = $this->year;
     }
 
 

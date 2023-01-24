@@ -46,12 +46,19 @@ class Schedule
      */
     private string $eventPlace;
 
-    public function __construct(Sport $sport, DisciplineGender $disciplineGender, DateTime $eventDate, string $eventPlace)
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $year;
+
+    public function __construct(Sport $sport, DisciplineGender $disciplineGender, DateTime $eventDate, string $eventPlace, int $year)
     {
         $this->sport = $sport;
         $this->disciplineGender = $disciplineGender;
         $this->eventDate = $eventDate;
         $this->eventPlace = $eventPlace;
+        $this->year = $year;
     }
 
     /**
@@ -124,5 +131,21 @@ class Schedule
     public function setEventPlace(string $eventPlace): void
     {
         $this->eventPlace = $eventPlace;
+    }
+
+    /**
+     * @return int
+     */
+    public function getYear(): int
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param int $year
+     */
+    public function setYear(int $year): void
+    {
+        $this->year = $year;
     }
 }

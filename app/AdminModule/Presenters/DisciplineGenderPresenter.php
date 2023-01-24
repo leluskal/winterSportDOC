@@ -6,9 +6,10 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\DisciplineGender\DisciplineGenderForm;
 use App\AdminModule\Components\Forms\DisciplineGender\DisciplineGenderFormFactory;
 use App\Model\Repositories\DisciplineGenderRepository;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Presenter;
 
-class DisciplineGenderPresenter extends Presenter
+class DisciplineGenderPresenter extends BasePresenter
 {
     private DisciplineGenderRepository $disciplineGenderRepository;
 

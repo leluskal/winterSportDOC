@@ -7,9 +7,9 @@ use App\AdminModule\Components\Forms\Schedule\ScheduleForm;
 use App\AdminModule\Components\Forms\Schedule\ScheduleFormFactory;
 use App\Model\Repositories\RaceResultRepository;
 use App\Model\Repositories\ScheduleRepository;
-use Nette\Application\UI\Presenter;
+use App\Presenters\BasePresenter;
 
-class SchedulePresenter extends Presenter
+class SchedulePresenter extends BasePresenter
 {
     private ScheduleRepository $scheduleRepository;
 
@@ -56,11 +56,13 @@ class SchedulePresenter extends Presenter
         $this['scheduleForm']['form']['discipline_gender_id']->setDefaultValue($disciplineGender->getId());
         $this['scheduleForm']['form']['event_date']->setDefaultValue($schedule->getEventDate()->format('Y-m-d\TH:i'));
         $this['scheduleForm']['form']['event_place']->setDefaultValue($schedule->getEventPlace());
+        $this['scheduleForm']['form']['year']->setDefaultValue($schedule->getYear());
     }
 
-    public function renderCreate(int $sportId)
+    public function renderCreate(int $sportId, int $year)
     {
         $this['scheduleForm']['form']['sport_id']->setDefaultValue($sportId);
+        $this['scheduleForm']['form']['year']->setDefaultValue($year);
     }
 
     public function actionCreate(int $sportId)

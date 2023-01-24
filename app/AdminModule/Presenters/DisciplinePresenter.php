@@ -7,9 +7,10 @@ use App\AdminModule\Components\Forms\Discipline\DisciplineForm;
 use App\AdminModule\Components\Forms\Discipline\DisciplineFormFactory;
 use App\Model\Repositories\DisciplineRepository;
 use App\Model\Repositories\RacePointRepository;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Presenter;
 
-class DisciplinePresenter extends Presenter
+class DisciplinePresenter extends BasePresenter
 {
     private DisciplineRepository $disciplineRepository;
 

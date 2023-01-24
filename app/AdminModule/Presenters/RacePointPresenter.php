@@ -6,9 +6,10 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\RacePoint\RacePointForm;
 use App\AdminModule\Components\Forms\RacePoint\RacePointFormFactory;
 use App\Model\Repositories\RacePointRepository;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Presenter;
 
-class RacePointPresenter extends Presenter
+class RacePointPresenter extends BasePresenter
 {
     private RacePointRepository $racePointRepository;
 
