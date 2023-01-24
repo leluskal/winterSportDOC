@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\Forms\Athlete\AthleteForm;
 use App\AdminModule\Components\Forms\Athlete\AthleteFormFactory;
 use App\Model\Repositories\AthleteRepository;
+use App\Model\Repositories\GenderRepository;
 use App\Model\Repositories\SportRepository;
 use Nette\Application\UI\Presenter;
 
@@ -16,6 +17,8 @@ class AthletePresenter extends Presenter
     private AthleteFormFactory $athleteFormFactory;
 
     private SportRepository $sportRepository;
+
+    private GenderRepository $genderRepository;
 
     public function __construct(
         AthleteRepository $athleteRepository,
@@ -46,6 +49,7 @@ class AthletePresenter extends Presenter
     public function renderDefault()
     {
         $this->template->sports = $this->sportRepository->findAll();
+//        $this->template->genders = $this->genderRepository->findAll();
     }
 
     public function renderEdit(int $id)

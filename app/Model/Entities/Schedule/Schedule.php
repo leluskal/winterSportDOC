@@ -46,19 +46,12 @@ class Schedule
      */
     private string $eventPlace;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="integer")
-     */
-    private bool $seen;
-
-    public function __construct(Sport $sport, DisciplineGender $disciplineGender, DateTime $eventDate, string $eventPlace, bool $seen)
+    public function __construct(Sport $sport, DisciplineGender $disciplineGender, DateTime $eventDate, string $eventPlace)
     {
         $this->sport = $sport;
         $this->disciplineGender = $disciplineGender;
         $this->eventDate = $eventDate;
         $this->eventPlace = $eventPlace;
-        $this->seen = $seen;
     }
 
     /**
@@ -131,21 +124,5 @@ class Schedule
     public function setEventPlace(string $eventPlace): void
     {
         $this->eventPlace = $eventPlace;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSeen(): bool
-    {
-        return $this->seen;
-    }
-
-    /**
-     * @param bool $seen
-     */
-    public function setSeen(bool $seen): void
-    {
-        $this->seen = $seen;
     }
 }

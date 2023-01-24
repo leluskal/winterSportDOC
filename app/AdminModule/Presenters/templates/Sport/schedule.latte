@@ -15,33 +15,27 @@
                     <th class="no-sort">Event Date</th>
                     <th>Event Place</th>
                     <th>Discipline</th>
-                    <th>Seen</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {dump $schedules}
                 {foreach $schedules as $schedule}
                     <tr>
-                        <td>{$schedule->getEventDate()->format('d.m.Y H:i')}</td>
+                        <td>
+                            {$schedule->getEventDate()->format('d.m.Y H:i')}
+                            <a n:href="Schedule:edit, sportId => $schedule->getSport()->getId(), id => $schedule->getId()">
+                                <i class="fas fa-edit fa-xs"></i>
+                            </a>
+                        </td>
                         <td>{$schedule->getEventPlace()}</td>
                         <td>
                             {$schedule->getDisciplineGender()->getDiscipline()->getName()}
                             ({$schedule->getDisciplineGender()->getGender()->getName()})
                         </td>
                         <td>
-                            <div class="part-icon-block">
-                                {if $schedule->isSeen()}
-                                    <i class="far fa-check-square"></i>
-                                {else}
-                                    <i class="far fa-square"></i>
-                                {/if}
-                            </div>
-                        </td>
-                        <td>
-                            <a n:href="Schedule:edit, sportId => $schedule->getSport()->getId(), id => $schedule->getId()" class="btn btn-light">Edit</a>
-                            <a n:href="Schedule:result, sportId => $schedule->getSport()->getId(), scheduleId => $schedule->getId()" class="btn btn-info">Results</a>
-                            {*                            <a n:href="deleteSchedule!, scheduleId => $schedule->getId()" class="btn btn-light">Delete</a>*}
+                            {if $schedule->getDisciplineGender()->getDiscipline()->getName() !== 'Qualification'}
+                                <a n:href="Schedule:result, sportId => $schedule->getSport()->getId(), scheduleId => $schedule->getId()" class="btn btn-info">Results</a>
+                            {/if}
                         </td>
                     </tr>
                 {/foreach}

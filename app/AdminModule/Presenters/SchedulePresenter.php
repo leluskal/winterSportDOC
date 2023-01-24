@@ -38,6 +38,10 @@ class SchedulePresenter extends Presenter
             $this->redirect('Sport:schedule', ['sportId' => $form->getSportId()]);
         };
 
+        $form->onDelete[] = function (ScheduleForm $scheduleForm) use ($form) {
+            $this->redirect('Sport:schedule', ['sportId' => $form->getSportId()]);
+        };
+
         return $form;
     }
 
@@ -52,7 +56,6 @@ class SchedulePresenter extends Presenter
         $this['scheduleForm']['form']['discipline_gender_id']->setDefaultValue($disciplineGender->getId());
         $this['scheduleForm']['form']['event_date']->setDefaultValue($schedule->getEventDate()->format('Y-m-d\TH:i'));
         $this['scheduleForm']['form']['event_place']->setDefaultValue($schedule->getEventPlace());
-        $this['scheduleForm']['form']['seen']->setDefaultValue($schedule->isSeen());
     }
 
     public function renderCreate(int $sportId)
@@ -74,5 +77,14 @@ class SchedulePresenter extends Presenter
     {
         $this->template->schedule = $this->scheduleRepository->getById($scheduleId);
         $this->template->raceResults = $this->raceResultRepository->findAllByScheduleId($scheduleId);
+    }
+
+    public function handleDeleteRaceResult(int $raceResultId)
+    {
+        $raceResult = $this->raceResultRepository->getById($raceResultId);
+
+        $this->raceResultRepository->delete($raceResult);
+        $this->flashMessage('The race result record is deleted', 'info');
+        $this->redirect('Schedule:result', $raceResult->getSchedule()->getId());
     }
 }

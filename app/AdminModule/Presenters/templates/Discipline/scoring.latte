@@ -24,7 +24,7 @@
                         <td>{$racePoint->getPoints()} points</td>
                         <td>
                             <a n:href="RacePoint:edit, id => $racePoint->getId()" class="btn btn-light">Edit</a>
-{*                            <a n:href="deleteRacePosition!, racePositionId => $racePosition->getId()" class="btn btn-light">Delete</a>*}
+                            <a n:href="deleteRacePoint!, racePointId => $racePoint->getId()" class="btn btn-light">Delete</a>
                         </td>
                     </tr>
                 {/foreach}

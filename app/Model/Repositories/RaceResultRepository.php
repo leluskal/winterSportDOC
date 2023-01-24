@@ -55,7 +55,7 @@ class RaceResultRepository extends BaseRepository
     public function getTotalResultsBySportIdAndGenderId(int $sportId, int $genderId)
     {
         return $this->em->createQueryBuilder()
-            ->select('a.firstname, a.lastname, SUM(rp.points) as totalPoints')
+            ->select('a.firstname, a.lastname, a.country, SUM(rp.points) as totalPoints')
             ->from($this->entityName, 'e')
             ->leftJoin('e.schedule', 's')
             ->leftJoin('s.sport', 'sp')
@@ -76,7 +76,7 @@ class RaceResultRepository extends BaseRepository
     public function getTotalResultsByDisciplineIdAndGenderId(int $disciplineId, int $genderId)
     {
         return $this->em->createQueryBuilder()
-            ->select('a.firstname, a.lastname, SUM(rp.points) as totalPoints')
+            ->select('a.firstname, a.lastname, a.country, SUM(rp.points) as totalPoints')
             ->from($this->entityName, 'e')
             ->leftJoin('e.schedule', 's')
             ->leftJoin('s.disciplineGender', 'dg')

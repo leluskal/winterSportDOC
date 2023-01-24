@@ -72,15 +72,6 @@ class SportPresenter extends Presenter
 
     }
 
-//    public function handleDeleteRacePosition(int $racePositionId)
-//    {
-//        $racePosition = $this->racePointRepository->getById($racePositionId);
-//
-//        $this->racePointRepository->delete($racePosition);
-//        $this->flashMessage('The record is deleted', 'info');
-//        $this->redirect('Sport:scoring', $racePosition->getSport()->getId());
-//    }
-
     public function renderDiscipline(int $sportId)
     {
         $this->template->sport = $this->sportRepository->getById($sportId);

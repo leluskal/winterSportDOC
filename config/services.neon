@@ -3,7 +3,6 @@ services:
 	- App\Model\Repositories\SportRepository
 	- App\AdminModule\Components\Forms\Sport\SportFormFactory
 	- App\Model\Repositories\GenderRepository
-	- App\AdminModule\Components\Forms\Gender\GenderFormFactory
 	- App\Model\Repositories\AthleteRepository
 	- App\AdminModule\Components\Forms\Athlete\AthleteFormFactory
 	- App\Model\Repositories\DisciplineRepository

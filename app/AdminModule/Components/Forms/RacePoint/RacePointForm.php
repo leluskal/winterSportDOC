@@ -17,8 +17,6 @@ class RacePointForm extends Control
 
     public array $onFinish;
 
-    public array $onDelete;
-
     private int $disciplineId;
 
     private DisciplineRepository $disciplineRepository;

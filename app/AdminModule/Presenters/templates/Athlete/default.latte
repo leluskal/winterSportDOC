@@ -24,6 +24,13 @@
                         <td>
                             <a n:href="Athlete:list, sportId => $sport->getId()" class="btn btn-warning">list of athletes</a>
                         </td>
+{*                        {foreach $genders as $gender}*}
+{*                            <td>*}
+{*                                <a n:href="Athlete:list, sportId => $sport->getId(), genderId => $gender->getId()" class="btn btn-warning">*}
+{*                                    {$gender->getName()}*}
+{*                                </a>*}
+{*                            </td>*}
+{*                        {/foreach}*}
                     </tr>
                 {/foreach}
                 </tbody>

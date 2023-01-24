@@ -39,6 +39,7 @@
                         </td>
                         <td>
                             <a n:href="RaceResult:edit, id => $raceResult->getId(), scheduleId => $raceResult->getSchedule()->getId()," class="btn btn-light">Edit</a>
+                            <a n:href="deleteRaceResult!, raceResultId => $raceResult->getId()" class="btn btn-light">Delete</a>
                         </td>
                     </tr>
                 {/foreach}

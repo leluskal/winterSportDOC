@@ -14,7 +14,6 @@
                 <tr>
                     <th>Sport</th>
                     <th></th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,9 +21,7 @@
                     <tr>
                         <td>
                             {$sport->getName()}
-                        </td>
-                        <td>
-                            <a n:href="Sport:edit, id => $sport->getId()" class="btn btn-light">Edit</a>
+                            <a n:href="Sport:edit, id => $sport->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
                         <td>
                             <a n:href="Sport:discipline, sportId => $sport->getId()" class="btn btn-warning">disciplines</a>

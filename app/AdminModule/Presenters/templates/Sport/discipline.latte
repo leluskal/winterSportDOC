@@ -15,7 +15,6 @@
                     <th>Discipline</th>
                     <th>World Cup Points</th>
                     <th></th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -23,18 +22,16 @@
                     <tr>
                         <td>
                             {$discipline->getName()}
+                            <a n:href="Discipline:edit, id => $discipline->getId()"><i class="fas fa-edit fa-xs"></i></a>
                         </td>
                         <td>
                             <div class="part-icon-block">
                                 {if $discipline->isWorldCupPoints()}
-                                    <i class="far fa-check-square"></i>
+                                    yes
                                 {else}
-                                    <i class="far fa-square"></i>
+                                    no
                                 {/if}
                             </div>
-                        </td>
-                        <td>
-                            <a n:href="Discipline:edit, id => $discipline->getId()" class="btn btn-light">Edit</a>
                         </td>
                         <td>
                             <a n:href="Discipline:scoring, disciplineId => $discipline->getId()" class="btn btn-info">Scoring</a>

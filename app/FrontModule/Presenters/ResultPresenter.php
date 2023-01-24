@@ -68,10 +68,15 @@ class ResultPresenter extends Presenter
         $this->template->totalResultsByDiscipline = $this->raceResultRepository->getTotalResultsByDisciplineIdAndGenderId((int) $disciplineId, (int) $genderId);
 
         $this->template->disciplineGenderId = $disciplineGenderId;
-        $this->template->disciplineGender = $this->disciplineGenderRepository->getById((int) $disciplineGenderId);
+
+        if ($disciplineGenderId !== null) {
+            $this->template->disciplineGender = $this->disciplineGenderRepository->getById($disciplineGenderId);
+
+        }
 
         $this->template->overallStandings = $overallStandings;
      }
+
 
      public function renderRace(int $disciplineGenderId)
      {

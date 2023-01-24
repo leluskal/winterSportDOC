@@ -20,6 +20,8 @@ class ScheduleForm extends Control
 
     public array $onFinish;
 
+    public array $onDelete;
+
     private int $sportId;
 
     private SportRepository $sportRepository;
@@ -64,9 +66,10 @@ class ScheduleForm extends Control
         $form->addText('event_place', 'Event Place')
              ->setRequired('The event place is required');
 
-        $form->addCheckbox('seen', 'Seen');
-
         $form->addSubmit('save', 'Save');
+
+        $form->addSubmit('delete', 'Delete')
+             ->setValidationScope([$form['id']]);
 
         $form->onSuccess[] = [$this, 'formSuccess'];
 
@@ -75,6 +78,13 @@ class ScheduleForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
+        if ($form['delete']->isSubmittedBy()) {
+            $schedule = $this->scheduleRepository->getById((int) $values->id);
+            $this->scheduleRepository->delete($schedule);
+            $this->getPresenter()->flashMessage('The schedule record is deleted', 'info');
+            $this->onDelete($this);
+        }
+
         $sport = $this->sportRepository->getById((int) $values->sport_id);
         $disciplineGender = $this->disciplineGenderRepository->getById((int) $values->discipline_gender_id);
 
@@ -84,7 +94,6 @@ class ScheduleForm extends Control
                 $disciplineGender,
                 DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date),
                 $values->event_place,
-                $values->seen
             );
 
             $this->scheduleRepository->save($schedule);
@@ -98,7 +107,6 @@ class ScheduleForm extends Control
             $schedule->setDisciplineGender($disciplineGender);
             $schedule->setEventDate(DateTime::createFromFormat('Y-m-d\TH:i', $values->event_date));
             $schedule->setEventPlace($values->event_place);
-            $schedule->setSeen($values->seen);
 
             $this->scheduleRepository->save($schedule);
             $this->getPresenter()->flashMessage('The schedule record is updated', 'info');

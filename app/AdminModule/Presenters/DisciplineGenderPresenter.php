@@ -31,6 +31,10 @@ class DisciplineGenderPresenter extends Presenter
             $this->redirect('DisciplineGender:default');
         };
 
+        $form->onDelete[] = function (DisciplineGenderForm $disciplineGenderForm)  {
+            $this->redirect('DisciplineGender:default');
+        };
+
         return $form;
     }
 

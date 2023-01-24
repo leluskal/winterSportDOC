@@ -18,6 +18,8 @@ class DisciplineGenderForm extends Control
 
     public array $onFinish;
 
+    public array $onDelete;
+
     private DisciplineRepository $disciplineRepository;
 
     private GenderRepository $genderRepository;
@@ -51,6 +53,9 @@ class DisciplineGenderForm extends Control
 
         $form->addSubmit('save', 'Save');
 
+        $form->addSubmit('delete', 'Delete')
+             ->setValidationScope([$form['id']]);
+
         $form->onSuccess[] = [$this, 'formSuccess'];
 
         return $form;
@@ -58,6 +63,13 @@ class DisciplineGenderForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
+        if ($form['delete']->isSubmittedBy()) {
+            $disciplineGender = $this->disciplineGenderRepository->getById((int) $values->id);
+            $this->disciplineGenderRepository->delete($disciplineGender);
+            $this->getPresenter()->flashMessage('The record is deleted', 'info');
+            $this->onDelete($this);
+        }
+
         $discipline = $this->disciplineRepository->getById((int) $values->discipline_id);
         $gender = $this->genderRepository->getById((int) $values->gender_id);
 

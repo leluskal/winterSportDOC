@@ -65,4 +65,13 @@ class DisciplinePresenter extends Presenter
         $this->template->racePoints = $this->racePointRepository->findAllByDisciplineId($disciplineId);
     }
 
+    public function handleDeleteRacePoint(int $racePointId)
+    {
+        $racePoint = $this->racePointRepository->getById($racePointId);
+
+        $this->racePointRepository->delete($racePoint);
+        $this->flashMessage('The record is deleted', 'info');
+        $this->redirect('Discipline:scoring', $racePoint->getDiscipline()->getId());
+    }
+
 }
