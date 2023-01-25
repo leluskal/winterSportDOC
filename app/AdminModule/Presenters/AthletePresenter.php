@@ -24,24 +24,22 @@ class AthletePresenter extends BasePresenter
     public function __construct(
         AthleteRepository $athleteRepository,
         AthleteFormFactory $athleteFormFactory,
-        SportRepository $sportRepository
+        SportRepository $sportRepository,
+        GenderRepository $genderRepository
     )
     {
         $this->athleteRepository = $athleteRepository;
         $this->athleteFormFactory = $athleteFormFactory;
         $this->sportRepository = $sportRepository;
+        $this->genderRepository = $genderRepository;
     }
 
     public function createComponentAthleteForm(): AthleteForm
     {
         $form = $this->athleteFormFactory->create();
 
-        $form->onFinish[] = function (AthleteForm $athleteForm) {
-            $this->redirect('Athlete:default');
-        };
-
-        $form->onDelete[] = function (AthleteForm $athleteForm) {
-            $this->redirect('Athlete:default');
+        $form->onFinish[] = function (AthleteForm $athleteForm) use ($form) {
+            $this->redirect('Athlete:list', ['sportId' => $form->getSportId(), 'genderId' => $form->getGenderId()]);
         };
 
         return $form;
@@ -50,7 +48,7 @@ class AthletePresenter extends BasePresenter
     public function renderDefault()
     {
         $this->template->sports = $this->sportRepository->findAll();
-//        $this->template->genders = $this->genderRepository->findAll();
+        $this->template->genders = $this->genderRepository->findAll();
     }
 
     public function renderEdit(int $id)
@@ -67,14 +65,25 @@ class AthletePresenter extends BasePresenter
         $this['athleteForm']['form']['sport_id']->setDefaultValue($sport->getId());
     }
 
-    public function renderCreate()
+    public function renderCreate(int $genderId, int $sportId)
     {
-
+        $this['athleteForm']['form']['gender_id']->setDefaultValue($genderId);
+        $this['athleteForm']['form']['sport_id']->setDefaultValue($sportId);
     }
 
-    public function renderList(int $sportId)
+    public function renderList(int $sportId, int $genderId)
     {
         $this->template->sport = $this->sportRepository->getById($sportId);
-        $this->template->athletes = $this->athleteRepository->findAllBySportId($sportId);
+        $this->template->gender = $this->genderRepository->getById($genderId);
+        $this->template->athletes = $this->athleteRepository->findAllBySportIdAndGenderId($sportId, $genderId);
+    }
+
+    public function handleDeleteAthlete(int $athleteId)
+    {
+        $athlete = $this->athleteRepository->getById($athleteId);
+
+        $this->athleteRepository->delete($athlete);
+        $this->flashMessage('The athlete record is deleted', 'info');
+        $this->redirect('Athlete:list', $athlete->getSport()->getId(),$athlete->getGender()->getId());
     }
 }

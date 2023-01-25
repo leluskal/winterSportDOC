@@ -72,6 +72,7 @@ class ResultPresenter extends BasePresenter
         }
 
         $this->template->overallStandings = $overallStandings;
+        $this->template->year = $this->year;
      }
 
 

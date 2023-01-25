@@ -46,7 +46,7 @@ class Athlete
     private string $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entities\Sport\Sport", fetch="EAGER")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=false)
      */
     private Sport $sport;

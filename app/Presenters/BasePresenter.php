@@ -28,7 +28,7 @@ abstract class BasePresenter extends Presenter
     {
         $form = new Form();
 
-        $form->addSelect('year', 'Year', [2022 => 2022, 2023 => 2023]);
+        $form->addSelect('year', 'Year', [2022 => '2022/23', 2023 => '2023/24']);
 
         $form->addSubmit('save', 'Save');
 

@@ -1,6 +1,6 @@
 {block content}
 
-<h1 class="mt-4">Winter Sports</h1>
+<h1 class="mt-4">List Of Athletes</h1>
 <ol class="breadcrumb mb-4">
 </ol>
 <div class="card mb-4">
@@ -22,16 +22,14 @@
                             {$sport->getName()}
                         </td>
                         <td>
-                            <a n:href="Athlete:list, sportId => $sport->getId()" class="btn btn-warning">list of athletes</a>
+                            {foreach $genders as $gender}
+                                {if $gender->getName() !== 'mix'}
+                                    <a n:href="Athlete:list, sportId => $sport->getId(), genderId => $gender->getId()" class="btn btn-warning">
+                                        {$gender->getName()}
+                                    </a>
+                                {/if}
+                            {/foreach}
                         </td>
-{*                        {foreach $genders as $gender}*}
-{*                            <td>*}
-{*                                <a n:href="Athlete:list, sportId => $sport->getId(), genderId => $gender->getId()" class="btn btn-warning">*}
-{*                                    {$gender->getName()}*}
-{*                                </a>*}
-{*                            </td>*}
-{*                        {/foreach}*}
-                    </tr>
                 {/foreach}
                 </tbody>
             </table>

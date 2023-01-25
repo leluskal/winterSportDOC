@@ -18,7 +18,9 @@ class AthleteForm extends Control
 
     public array $onFinish;
 
-    public array $onDelete;
+    private int $sportId;
+
+    private int $genderId;
 
     private GenderRepository $genderRepository;
 
@@ -62,9 +64,6 @@ class AthleteForm extends Control
 
         $form->addSubmit('save', 'Save');
 
-        $form->addSubmit('delete', 'Delete')
-             ->setValidationScope([$form['id']]);
-
         $form->onSuccess[] = [$this, 'formSuccess'];
 
         return $form;
@@ -72,13 +71,6 @@ class AthleteForm extends Control
 
     public function formSuccess(Form $form, ArrayHash $values)
     {
-        if ($form['delete']->isSubmittedBy()) {
-            $athlete = $this->athleteRepository->getById((int) $values->id);
-            $this->athleteRepository->delete($athlete);
-            $this->getPresenter()->flashMessage('The athlete record is deleted', 'info');
-            $this->onDelete($this);
-        }
-
         $gender = $this->genderRepository->getById((int) $values->gender_id);
         $sport = $this->sportRepository->getById((int) $values->sport_id);
 
@@ -108,6 +100,9 @@ class AthleteForm extends Control
             $this->getPresenter()->flashMessage('The athlete record is updated', 'info');
         }
 
+        $this->sportId = $values->sport_id;
+        $this->genderId = $values->gender_id;
+
         $this->onFinish($this);
     }
 
@@ -116,5 +111,15 @@ class AthleteForm extends Control
         $template = $this->getTemplate();
         $template->setFile(__DIR__ .'/athleteForm.latte');
         $template->render();
+    }
+
+    public function getSportId(): int
+    {
+        return $this->sportId;
+    }
+
+    public function getGenderId(): int
+    {
+        return $this->genderId;
     }
 }
