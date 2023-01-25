@@ -134,7 +134,7 @@ class ScheduleRepository extends BaseRepository
      * @param int $disciplineId
      * @return Schedule[]
      */
-    public function findAllByDisciplineIdAndGenderId(int $disciplineId, int $genderId): array
+    public function findAllByDisciplineIdAndGenderIdAndYear(int $disciplineId, int $genderId, int $year): array
     {
         return $this->em->createQueryBuilder()
             ->select('e')
@@ -144,6 +144,8 @@ class ScheduleRepository extends BaseRepository
             ->setParameter('discipline_id', $disciplineId)
             ->andWhere('dg.gender = :gender_id')
             ->setParameter('gender_id', $genderId)
+            ->andWhere('e.year = :year')
+            ->setParameter('year', $year)
             ->orderBy('e.eventDate', 'ASC')
             ->getQuery()
             ->getResult();

@@ -61,8 +61,8 @@ class ResultPresenter extends BasePresenter
         $this->template->genderId = $genderId;
         $this->template->gender = $this->genderRepository->getById((int) $genderId);
 
-        $this->template->totalResults = $this->raceResultRepository->getTotalResultsBySportIdAndGenderId((int) $sportId,  (int) $genderId);
-        $this->template->totalResultsByDiscipline = $this->raceResultRepository->getTotalResultsByDisciplineIdAndGenderId((int) $disciplineId, (int) $genderId);
+        $this->template->totalResults = $this->raceResultRepository->getTotalResultsBySportIdAndGenderIdAndYear((int) $sportId,  (int) $genderId, (int) $this->year);
+        $this->template->totalResultsByDiscipline = $this->raceResultRepository->getTotalResultsByDisciplineIdAndGenderIdAndYear((int) $disciplineId, (int) $genderId, (int) $this->year);
 
         $this->template->disciplineGenderId = $disciplineGenderId;
 
@@ -83,7 +83,9 @@ class ResultPresenter extends BasePresenter
 
          $disciplineId = $disciplineGender->getDiscipline()->getId();
          $genderId = $disciplineGender->getGender()->getId();
-         $this->template->schedules = $this->scheduleRepository->findAllByDisciplineIdAndGenderId($disciplineId, $genderId);
+         $this->template->schedules = $this->scheduleRepository->findAllByDisciplineIdAndGenderIdAndYear($disciplineId, $genderId, (int) $this->year);
+
+         $this->template->year = $this->year;
      }
 
      public function renderRaceResult(int $scheduleId)

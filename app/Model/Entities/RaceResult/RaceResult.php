@@ -40,11 +40,18 @@ class RaceResult
      */
     private RacePoint $racePoint;
 
-    public function __construct(Schedule $schedule, Athlete $athlete, RacePoint $racePoint)
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $year;
+
+    public function __construct(Schedule $schedule, Athlete $athlete, RacePoint $racePoint, int $year)
     {
         $this->schedule = $schedule;
         $this->athlete = $athlete;
         $this->racePoint = $racePoint;
+        $this->year = $year;
     }
 
     /**
@@ -101,5 +108,21 @@ class RaceResult
     public function setRacePoint(RacePoint $racePoint): void
     {
         $this->racePoint = $racePoint;
+    }
+
+    /**
+     * @return int
+     */
+    public function getYear(): int
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param int $year
+     */
+    public function setYear(int $year): void
+    {
+        $this->year = $year;
     }
 }

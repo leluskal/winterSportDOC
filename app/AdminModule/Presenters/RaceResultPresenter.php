@@ -50,6 +50,7 @@ class RaceResultPresenter extends BasePresenter
         $this['raceResultForm']['form']['schedule_id']->setDefaultValue($schedule->getId());
         $this['raceResultForm']['form']['athlete_id']->setDefaultValue($athlete->getId());
         $this['raceResultForm']['form']['race_point_id']->setDefaultValue($racePoint->getId());
+        $this['raceResultForm']['form']['year']->setDefaultValue($raceResult->getYear());
     }
 
     public function actionCreate(int $scheduleId)
@@ -57,9 +58,10 @@ class RaceResultPresenter extends BasePresenter
         $this->scheduleId = $scheduleId;
     }
 
-    public function renderCreate(int $scheduleId)
+    public function renderCreate(int $scheduleId, int $year)
     {
         $this['raceResultForm']['form']['schedule_id']->setDefaultValue($scheduleId);
+        $this['raceResultForm']['form']['year']->setDefaultValue($year);
     }
 
 }

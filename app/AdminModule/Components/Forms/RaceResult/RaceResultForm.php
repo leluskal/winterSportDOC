@@ -73,6 +73,8 @@ class RaceResultForm extends Control
              ->setPrompt('--Choose race position--')
              ->setRequired('The race position is required');
 
+        $form->addHidden('year');
+
         $form->addSubmit('save', 'Save');
 
         $form->onSuccess[] = [$this, 'formSuccess'];
@@ -90,7 +92,8 @@ class RaceResultForm extends Control
             $raceResult = new RaceResult(
                 $schedule,
                 $athlete,
-                $racePoint
+                $racePoint,
+                (int) $values->year
             );
 
             $this->raceResultRepository->save($raceResult);
@@ -103,6 +106,7 @@ class RaceResultForm extends Control
             $raceResult->setSchedule($schedule);
             $raceResult->setAthlete($athlete);
             $raceResult->setRacePoint($racePoint);
+            $raceResult->setYear((int) $values->year);
 
             $this->raceResultRepository->save($raceResult);
             $this->getPresenter()->flashMessage('The record is updated', 'info');

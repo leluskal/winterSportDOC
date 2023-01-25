@@ -46,6 +46,7 @@
     <h2 id="sport-heading">
         {if $disciplineGenderId !== null}
             {$disciplineGender->getDiscipline()->getName()}
+            ({$year})
         {/if}
     </h2>
     <br>
@@ -72,7 +73,7 @@
         {/foreach}
     </table>
     {if $overallStandings === true}
-    <h2>World Cup Standing:</h2>
+    <h2>World Cup Standing ({$year}):</h2>
     <table class="table-position">
             {foreach $totalResults as $totalResult}
                 <tr>

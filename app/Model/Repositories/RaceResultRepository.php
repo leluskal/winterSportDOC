@@ -52,7 +52,7 @@ class RaceResultRepository extends BaseRepository
             ->getResult();
     }
 
-    public function getTotalResultsBySportIdAndGenderId(int $sportId, int $genderId)
+    public function getTotalResultsBySportIdAndGenderIdAndYear(int $sportId, int $genderId, int $year)
     {
         return $this->em->createQueryBuilder()
             ->select('a.firstname, a.lastname, a.country, SUM(rp.points) as totalPoints')
@@ -66,6 +66,8 @@ class RaceResultRepository extends BaseRepository
             ->setParameter('sport_id', $sportId)
             ->andWhere('g.id = :gender_id')
             ->setParameter('gender_id', $genderId)
+            ->andWhere('e.year = :year')
+            ->setParameter('year', $year)
             ->groupBy('a.id')
             ->orderBy('totalPoints', 'DESC')
             ->getQuery()
@@ -73,7 +75,7 @@ class RaceResultRepository extends BaseRepository
     }
 
 
-    public function getTotalResultsByDisciplineIdAndGenderId(int $disciplineId, int $genderId)
+    public function getTotalResultsByDisciplineIdAndGenderIdAndYear(int $disciplineId, int $genderId, int $year)
     {
         return $this->em->createQueryBuilder()
             ->select('a.firstname, a.lastname, a.country, SUM(rp.points) as totalPoints')
@@ -86,6 +88,8 @@ class RaceResultRepository extends BaseRepository
             ->setParameter('discipline_id', $disciplineId)
             ->andWhere('dg.gender = :gender_id')
             ->setParameter('gender_id', $genderId)
+            ->andWhere('e.year = :year')
+            ->setParameter('year', $year)
             ->groupBy('a.id')
             ->orderBy('totalPoints', 'DESC')
             ->getQuery()
